@@ -1,6 +1,7 @@
 /node_modules/
 /src/
 /examples/
+/docs/
 /.gitignore
 /grunt.js
 /examples/
