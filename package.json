@@ -29,7 +29,8 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "~0.3.12"
+    "grunt": "~0.3.12",
+    "dustjs-linkedin": ">= 1.0.0"
   },
   "devDependencies": {
     "grunt": "~0.3.12",
