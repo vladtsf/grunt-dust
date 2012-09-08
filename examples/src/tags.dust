@@ -1,0 +1,9 @@
+{?tags}
+  <ul>
+    {#tags}
+      <li>{.}</li>
+    {/tags}
+  </ul>
+{:else}
+  No Tags!
+{/tags}

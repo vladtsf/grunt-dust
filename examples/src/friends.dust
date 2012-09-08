@@ -1,0 +1,3 @@
+{#friends}
+  {name}, {age}{~n}
+{/friends}

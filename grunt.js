@@ -2,6 +2,9 @@ module.exports = function(grunt) {
   // CoffeeScript plugin
   grunt.loadNpmTasks('grunt-coffee');
 
+  // Docco plugin
+  grunt.loadNpmTasks('grunt-docco');
+
   // Project configuration.
   grunt.initConfig({
     coffee: {
@@ -33,6 +36,12 @@ module.exports = function(grunt) {
     watch: {
       files: ['<config:coffee.tasks.src>', '<config:coffee.test.src>'],
       tasks: 'default'
+    },
+
+    docco: {
+      dist: {
+        src: ['<config:coffee.tasks.src>', '<config:coffee.test.src>']
+      }
     }
 
 //    jshint: {
@@ -58,6 +67,6 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // Default task.
-  grunt.registerTask('default', 'coffee test');
+  grunt.registerTask('default', 'coffee docco test');
 
 };

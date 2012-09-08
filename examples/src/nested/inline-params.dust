@@ -1,0 +1,3 @@
+{#profile bar="baz" bing="bong"}
+  {name}, {bar}, {bing}
+{/profile}
