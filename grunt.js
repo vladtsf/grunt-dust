@@ -44,23 +44,6 @@ module.exports = function(grunt) {
       }
     }
 
-//    jshint: {
-//      options: {
-//        curly: true,
-//        eqeqeq: true,
-//        immed: true,
-//        latedef: true,
-//        newcap: true,
-//        noarg: true,
-//        sub: true,
-//        undef: true,
-//        boss: true,
-//        eqnull: true,
-//        node: true,
-//        es5: true
-//      },
-//      globals: {}
-//    }
   });
 
   // Load local tasks.

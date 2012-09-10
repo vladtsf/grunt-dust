@@ -17,14 +17,19 @@
     path = require('path');
     dustRuntimePath = grunt.file.expandFiles(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0];
     grunt.registerMultiTask('dust', 'Task to compile dustjs templates.', function() {
-      var all, dest, file, files, idx, options, rawAll, rawContent, relativePath, runtimePath, tplName, _i, _len;
+      var all, dest, file, files, idx, options, rawAll, rawContent, relativePath, runtimePath, tplName, _i, _len, _ref, _ref1;
       options = _.extend({
         runtime: true,
-        relativeFrom: '',
-        amd: {
-          deps: [path.basename(dustRuntimePath)]
-        }
+        relativeFrom: ''
       }, this.data.options);
+      if (((_ref = this.data.options) != null ? _ref.amd : void 0) !== false) {
+        options.amd = _.extend({
+          packageName: void 0,
+          deps: [path.basename(dustRuntimePath)]
+        }, (_ref1 = this.data.options) != null ? _ref1.amd || (_ref1.amd = {}) : void 0);
+      } else {
+        options.amd = false;
+      }
       dest = path.normalize("" + this.file.dest);
       files = grunt.file.expandFiles(this.file.src);
       all = [];
@@ -41,7 +46,7 @@
         }
       }
       rawAll = all.join('\n');
-      grunt.file.write(dest, options.amd ? grunt.helper('dust-amd', rawAll, options.amd.deps) : rawAll);
+      grunt.file.write(dest, options.amd ? grunt.helper('dust-amd', rawAll, options.amd.deps, options.amd.packageName) : rawAll);
       if (options.runtime) {
         runtimePath = path.join(path.dirname(dest), path.basename(dustRuntimePath));
         return grunt.file.write(runtimePath, grunt.helper('dust-runtime'));
@@ -50,11 +55,23 @@
     grunt.registerHelper('dust-runtime', function(file, raw) {
       return grunt.file.read(dustRuntimePath);
     });
-    grunt.registerHelper('dust-amd', function(content, deps) {
+    grunt.registerHelper('dust-amd', function(content, deps, name) {
+      var depsString, packageString;
       if (deps == null) {
         deps = [];
       }
-      return "define(['" + (deps.join('\', \'')) + "'], function () {\n\t" + (content.split('\n').join('\n\t')) + "\n});";
+      if (name == null) {
+        name = null;
+      }
+      if (deps.constructor === Array && deps.length) {
+        depsString = "['" + (deps.join('\', \'')) + "'], ";
+      }
+      if (typeof deps === 'string' && name === null) {
+        packageString = "'" + deps + "', ";
+      } else if (typeof name === 'string') {
+        packageString = "'" + name + "', ";
+      }
+      return "define(" + (packageString != null ? packageString : '') + (depsString != null ? depsString : '') + "function () {\n\t" + (content.split('\n').join('\n\t')) + "\n});";
     });
     return grunt.registerHelper('dust-relative-path', function(fPath, base) {
       var baseParts, filtered, pathParts;
