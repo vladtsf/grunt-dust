@@ -21,7 +21,8 @@ _(Coming soon)_
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
-* v0.1.0 - First release
+* v0.1.1 - Fixed issue with empty array of dependencies and added ability to set package name for AMD.
+* v0.1.0 - First release.
 
 ## License
 Copyright (c) 2012 Vladimir Tsvang  
