@@ -27,6 +27,26 @@ module.exports = function(grunt) {
         }
       },
 
+      amd_without_deps: {
+        src: ['src/**/*.dust'],
+        dest: 'dst/views_amd_without_deps.js',
+        options: {
+          amd: {
+            deps: false
+          }
+        }
+      },
+
+      amd_with_package_name: {
+        src: ['src/**/*.dust'],
+        dest: 'dst/views_amd_with_package_name.js',
+        options: {
+          amd: {
+            packageName: 'views'
+          }
+        }
+      },
+
       nested_relative: {
         src: ['src/**/*.dust'],
         dest: 'dst/views_nested_relative.js',
@@ -37,23 +57,6 @@ module.exports = function(grunt) {
 
     }
 
-//    jshint: {
-//      options: {
-//        curly: true,
-//        eqeqeq: true,
-//        immed: true,
-//        latedef: true,
-//        newcap: true,
-//        noarg: true,
-//        sub: true,
-//        undef: true,
-//        boss: true,
-//        eqnull: true,
-//        node: true,
-//        es5: true
-//      },
-//      globals: {}
-//    }
   });
 
   // Load local tasks.

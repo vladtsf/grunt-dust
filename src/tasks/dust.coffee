@@ -28,10 +28,16 @@ module.exports = (grunt) ->
 		options = _.extend
 			runtime: on
 			relativeFrom: ''
-			amd: {
-				deps: [path.basename(dustRuntimePath)]
-			}
 		, @data.options
+
+		# AMD settings
+		if @data.options?.amd isnt off
+			options.amd = _.extend
+				packageName: undefined
+				deps: [path.basename(dustRuntimePath)]
+			, @data.options?.amd ||= {}
+		else
+			options.amd = off
 
 		#	Destination
 		dest = path.normalize "#{@file.dest}"
@@ -65,7 +71,7 @@ module.exports = (grunt) ->
 		rawAll = all.join '\n'
 
 		# Wrap to the AMD and write to file
-		grunt.file.write dest, if options.amd then grunt.helper('dust-amd', rawAll, options.amd.deps) else rawAll
+		grunt.file.write dest, if options.amd then grunt.helper('dust-amd', rawAll, options.amd.deps, options.amd.packageName) else rawAll
 
 		# Add runtime
 		if options.runtime
@@ -87,8 +93,17 @@ module.exports = (grunt) ->
 
 	# Wraps some content into AMD
 	# ---
-	grunt.registerHelper 'dust-amd', (content, deps = []) ->
-		"define(['#{deps.join '\', \''}'], function () {\n\t#{content.split('\n').join('\n\t')}\n});"
+	grunt.registerHelper 'dust-amd', (content, deps = [], name = null) ->
+		if deps.constructor is Array and deps.length
+			depsString = "['#{deps.join '\', \''}'], "
+
+		if typeof deps is 'string' and name is null
+			packageString = "'#{deps}', "
+
+		else if typeof name is 'string'
+			packageString = "'#{name}', "
+
+		"define(#{packageString ? ''}#{depsString ? ''}function () {\n\t#{content.split('\n').join('\n\t')}\n});"
 
 	# Removing prefix **base** from **fPath** correctly
 	# ---
