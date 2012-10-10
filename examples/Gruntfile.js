@@ -5,21 +5,27 @@ module.exports = function(grunt) {
     dust: {
 
       defaults: {
-        src: ['src/**/*.dust'],
-        dest: 'dst/views.js'
+        files: {
+          'dst/views.js': 'src/**/*.dust',
+          'dst/*.js': 'src/**/*.dust'
+        },
+        // src: ['src/**/*.dust'],
+        // dest: 'dst/views.js'
       },
 
       no_amd: {
-        src: ['src/**/*.dust'],
-        dest: 'dst/views_no_amd.js',
+        files: {
+          'dst/views_no_amd.js': 'src/**/*.dust'
+        },
         options: {
           amd: false
         }
       },
 
       amd_custom_deps: {
-        src: ['src/**/*.dust'],
-        dest: 'dst/views_amd_custom_deps.js',
+        files: {
+          'dst/views_amd_custom_deps.js': 'src/**/*.dust'
+        },
         options: {
           amd: {
             deps: ['dust-core-1.0.0.min.js']
@@ -28,8 +34,9 @@ module.exports = function(grunt) {
       },
 
       amd_without_deps: {
-        src: ['src/**/*.dust'],
-        dest: 'dst/views_amd_without_deps.js',
+        files: {
+          'dst/views_amd_without_deps.js': 'src/**/*.dust'
+        },
         options: {
           amd: {
             deps: false
@@ -38,8 +45,9 @@ module.exports = function(grunt) {
       },
 
       amd_with_package_name: {
-        src: ['src/**/*.dust'],
-        dest: 'dst/views_amd_with_package_name.js',
+        files: {
+          'dst/views_amd_with_package_name.js': 'src/**/*.dust'
+        },
         options: {
           amd: {
             packageName: 'views'
@@ -48,10 +56,11 @@ module.exports = function(grunt) {
       },
 
       nested_relative: {
-        src: ['src/**/*.dust'],
-        dest: 'dst/views_nested_relative.js',
+        files: {
+          'dst/views_nested_relative.js': 'src/**/*.dust'
+        },
         options: {
-          relativeFrom: 'src/'
+          basePath: 'src/'
         }
       }
 

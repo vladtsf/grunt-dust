@@ -29,13 +29,13 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "~0.3.12",
-    "dustjs-linkedin": ">= 1.0.0"
+    "grunt": "~0.4.0a",
+    "dustjs-linkedin": ">= 1.0.0",
+    "grunt-contrib-lib": "*"
+
   },
   "devDependencies": {
-    "grunt": "~0.3.12",
-    "grunt-coffee": ">= 0.0.5",
-    "grunt-docco": ">= 0.1.1"
+    "grunt-contrib-coffee": "*"
   },
   "keywords": [
     "gruntplugin"

@@ -1,4 +1,4 @@
-define('views', ['dust-core-1.0.0.js'], function () {
+define('views', ['dust-core-1.1.1.js'], function () {
 	// src/friends.dust
 	(function(){dust.register("src/friends",body_0);function body_0(chk,ctx){return chk.section(ctx.get("friends"),ctx,{"block":body_1},null);}function body_1(chk,ctx){return chk.reference(ctx.get("name"),ctx,"h").write(", ").reference(ctx.get("age"),ctx,"h").write("\n");}return body_0;})();
 	// src/nested/inline-params.dust
