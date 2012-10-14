@@ -14,7 +14,7 @@
       }
       if (typeof deps === 'string' && name === null) {
         packageString = "'" + deps + "', ";
-      } else if (typeof name === 'string') {
+      } else if (typeof name === 'string' && name.length) {
         packageString = "'" + name + "', ";
       }
       return "define(" + (packageString != null ? packageString : '') + (depsString != null ? depsString : '') + "function () {\n\t" + (content.split('\n').join('\n\t')) + "\n});";

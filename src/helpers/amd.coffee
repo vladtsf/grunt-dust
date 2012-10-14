@@ -8,7 +8,7 @@ module.exports.init = (grunt) ->
 		if typeof deps is 'string' and name is null
 			packageString = "'#{deps}', "
 
-		else if typeof name is 'string'
+		else if typeof name is 'string' and name.length
 			packageString = "'#{name}', "
 
 		"define(#{packageString ? ''}#{depsString ? ''}function () {\n\t#{content.split('\n').join('\n\t')}\n});"

@@ -17,20 +17,22 @@ module.exports = (grunt) ->
 	# HELPERS
 	# ==========================================================================
 	relativePathHelper = require('../helpers/relative-path').init(grunt)
-	runtimeHelper = require('../helpers/runtime').init(grunt)
 	amdHelper = require('../helpers/amd').init(grunt)
 	optionsHelper = require('../helpers/options').init(grunt)
 
 	contrib = require('grunt-contrib-lib').init(grunt)
 
-	# Path to dust runtime path
-	dustRuntimePath = grunt.file.expandFiles(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0]
+	# Runtime options
+	runtime =
+		path: grunt.file.expandFiles(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0]
+		file: 'dust-runtime.js'
+		amdName: 'dust-runtime'
 
 	# ==========================================================================
 	# TASKS
 	# ==========================================================================
 
-	#	Task to compile dustjs templates
+	# Task to compile dustjs templates
 	# ---
 	grunt.registerMultiTask 'dust', 'Task to compile dustjs templates.', ->
 		options = optionsHelper @, 
@@ -38,12 +40,16 @@ module.exports = (grunt) ->
 			basePath: ''
 			amd:
 				packageName: null
-				deps: [path.basename(dustRuntimePath)]
+				deps: [runtime.amdName]
 
 		grunt.verbose.writeflags options, 'Options'
 
-		#	Destination
+		# Destination
 		@files = contrib.normalizeMultiTaskFiles(@data, @target) ? @files
+
+		# exclude deps if runtime is false
+		unless options.runtime or @data.options?.amd?.deps? and runtime.amdName in @data.options.amd.deps
+			options.amd.deps = _.without(options.amd.deps, runtime.amdName)
 
 		for section in @files
 			src = grunt.file.expandFiles section.src
@@ -56,36 +62,34 @@ module.exports = (grunt) ->
 			output = []
 
 			for source in src
-				# compiled =
 				basePath = contrib.findBasePath src, options.basePath
 				fileRelativeSrc = relativePathHelper source, basePath
+				tplName = fileRelativeSrc.replace new RegExp("#{path.extname(fileRelativeSrc)}$"), ''
 
 				try
 					compiled = dust.compile grunt.file.read(source), tplName
 				catch e
-					#	Handle error and log it with Grunt.js API
+					# Handle error and log it with Grunt.js API
 					grunt.log.error().writeln e.toString()
 					grunt.warn "DustJS found errors.", 10
 
 				if contrib.isIndividualDest dest
 					newFileDest = contrib.buildIndividualDest dest, source, basePath, options.flatten
-					tplName = fileRelativeSrc.replace new RegExp("#{path.extname(fileRelativeSrc)}$"), ''
 
-					# grunt.file.write newFileDest, if options.amd then amdHelper(compiled, options.amd.deps ? [], options.amd.packageName ? '') else compiled ? ''
+					grunt.file.write newFileDest, if options.amd then amdHelper(compiled, options.amd.deps ? [], options.amd.packageName ? '') else compiled ? ''
 					grunt.log.writeln "File #{newFileDest.cyan} created."
 				else
+					output.push "// #{fileRelativeSrc}"
 					output.push compiled
 
 			if output.length > 0
-				# grunt.file.write dest, if options.amd then amdHelper(output.join('\n'), options.amd.deps ? [], options.amd.packageName ? '') else output.join('\n') ? ''
-				grunt.log.writeln "File #{dest.cyan} created."
+				grunt.file.write dest, if options.amd then amdHelper(output.join('\n'), options.amd.deps ? [], options.amd.packageName ? '') else output.join('\n') ? ''
 
-			# # Add runtime
-			# if options.runtime
-			# 	# Where to store runtime
-			# 	console.log dustRuntimePath
-			# 	# runtimePath = path.join path.dirname(dest), path.basename(dustRuntimePath)
+			# Add runtime
+			if options.runtime
+				# Where to store runtime
+				runtimePath = path.join path.dirname(dest), runtime.file
 
-			# 	# Save runtime to file
-			# 	grunt.file.write dustRuntimePath, runtimeHelper()
+				# Save runtime to file
+				grunt.file.write runtimePath, grunt.file.read(runtime.path)
 

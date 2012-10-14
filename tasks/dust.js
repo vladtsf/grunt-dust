@@ -9,33 +9,40 @@
 
 
 (function() {
+  var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   module.exports = function(grunt) {
-    var amdHelper, contrib, dust, dustRuntimePath, optionsHelper, path, relativePathHelper, runtimeHelper, _;
+    var amdHelper, contrib, dust, optionsHelper, path, relativePathHelper, runtime, _;
     _ = grunt.util._;
     dust = require('dustjs-linkedin');
     path = require('path');
     relativePathHelper = require('../helpers/relative-path').init(grunt);
-    runtimeHelper = require('../helpers/runtime').init(grunt);
     amdHelper = require('../helpers/amd').init(grunt);
     optionsHelper = require('../helpers/options').init(grunt);
     contrib = require('grunt-contrib-lib').init(grunt);
-    dustRuntimePath = grunt.file.expandFiles(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0];
+    runtime = {
+      path: grunt.file.expandFiles(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0],
+      file: 'dust-runtime.js',
+      amdName: 'dust-runtime'
+    };
     return grunt.registerMultiTask('dust', 'Task to compile dustjs templates.', function() {
-      var basePath, compiled, dest, fileRelativeSrc, newFileDest, options, output, section, source, src, tplName, _i, _j, _len, _len1, _ref, _ref1;
+      var basePath, compiled, dest, fileRelativeSrc, newFileDest, options, output, runtimePath, section, source, src, tplName, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
       options = optionsHelper(this, {
         runtime: true,
         basePath: '',
         amd: {
           packageName: null,
-          deps: [path.basename(dustRuntimePath)]
+          deps: [runtime.amdName]
         }
       });
       grunt.verbose.writeflags(options, 'Options');
       this.files = (_ref = contrib.normalizeMultiTaskFiles(this.data, this.target)) != null ? _ref : this.files;
-      _ref1 = this.files;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        section = _ref1[_i];
+      if (!(options.runtime || (((_ref1 = this.data.options) != null ? (_ref2 = _ref1.amd) != null ? _ref2.deps : void 0 : void 0) != null) && (_ref3 = runtime.amdName, __indexOf.call(this.data.options.amd.deps, _ref3) >= 0))) {
+        options.amd.deps = _.without(options.amd.deps, runtime.amdName);
+      }
+      _ref4 = this.files;
+      for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
+        section = _ref4[_i];
         src = grunt.file.expandFiles(section.src);
         dest = section.dest = path.normalize(section.dest);
         if (!src.length) {
@@ -47,6 +54,7 @@
           source = src[_j];
           basePath = contrib.findBasePath(src, options.basePath);
           fileRelativeSrc = relativePathHelper(source, basePath);
+          tplName = fileRelativeSrc.replace(new RegExp("" + (path.extname(fileRelativeSrc)) + "$"), '');
           try {
             compiled = dust.compile(grunt.file.read(source), tplName);
           } catch (e) {
@@ -55,14 +63,19 @@
           }
           if (contrib.isIndividualDest(dest)) {
             newFileDest = contrib.buildIndividualDest(dest, source, basePath, options.flatten);
-            tplName = fileRelativeSrc.replace(new RegExp("" + (path.extname(fileRelativeSrc)) + "$"), '');
+            grunt.file.write(newFileDest, options.amd ? amdHelper(compiled, (_ref5 = options.amd.deps) != null ? _ref5 : [], (_ref6 = options.amd.packageName) != null ? _ref6 : '') : compiled != null ? compiled : '');
             grunt.log.writeln("File " + newFileDest.cyan + " created.");
           } else {
+            output.push("// " + fileRelativeSrc);
             output.push(compiled);
           }
         }
         if (output.length > 0) {
-          grunt.log.writeln("File " + dest.cyan + " created.");
+          grunt.file.write(dest, options.amd ? amdHelper(output.join('\n'), (_ref7 = options.amd.deps) != null ? _ref7 : [], (_ref8 = options.amd.packageName) != null ? _ref8 : '') : (_ref9 = output.join('\n')) != null ? _ref9 : '');
+        }
+        if (options.runtime) {
+          runtimePath = path.join(path.dirname(dest), runtime.file);
+          grunt.file.write(runtimePath, grunt.file.read(runtime.path));
         }
       }
     });
