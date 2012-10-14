@@ -76,7 +76,11 @@ module.exports = function(grunt) {
   });
 
   // Load local tasks.
-  grunt.loadTasks('../tasks');
+  if(process.env.TEST) {
+    grunt.loadTasks('../../tasks');
+  } else {
+    grunt.loadTasks('../tasks');
+  }
 
   // Default task.
   grunt.registerTask('default', 'dust');
