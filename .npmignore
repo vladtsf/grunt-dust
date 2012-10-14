@@ -1,3 +1,4 @@
+/.idea/
 /node_modules/
 /src/
 /examples/
@@ -5,3 +6,4 @@
 /.gitignore
 /grunt.js
 /examples/
+/test/
