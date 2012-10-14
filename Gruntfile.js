@@ -38,6 +38,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // Default task.
+  grunt.registerTask('test', 'nodeunit');
   grunt.registerTask('default', 'coffee');
 
 };
