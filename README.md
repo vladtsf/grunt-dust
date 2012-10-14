@@ -1,4 +1,4 @@
-# grunt-dust
+# grunt-dust [![build status](https://secure.travis-ci.org/vtsvang/grunt-dust.png)](http://travis-ci.org/vtsvang/grunt-dust)
 
 Grunt.js plugin to compile dustjs templates.
 
