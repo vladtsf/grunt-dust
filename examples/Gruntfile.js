@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 
       no_runtime: {
         files: {
-          'dst/no_runtime/views.js': 'src/**/*.dust'
+          'dst/views_no_runtime/views.js': 'src/**/*.dust'
         },
         options: {
           runtime: false
