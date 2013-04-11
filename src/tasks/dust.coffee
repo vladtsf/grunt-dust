@@ -24,7 +24,7 @@ module.exports = (grunt) ->
 
 	# Runtime options
 	runtime =
-		path: grunt.file.expandFiles(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0]
+		path: grunt.file.expand(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0]
 		file: 'dust-runtime.js'
 		amdName: 'dust-runtime'
 
@@ -52,7 +52,7 @@ module.exports = (grunt) ->
 			options.amd.deps = _.without(options.amd.deps, runtime.amdName)
 
 		for section in @files
-			src = grunt.file.expandFiles section.src
+			src = grunt.file.expand section.src
 			dest = section.dest = path.normalize section.dest
 
 			unless src.length

@@ -1,8 +1,8 @@
 (function() {
-
   module.exports.init = function(grunt) {
     return function(content, deps, name) {
       var depsString, packageString;
+
       if (deps == null) {
         deps = [];
       }

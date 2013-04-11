@@ -29,7 +29,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "~0.4.0a",
+    "grunt": "~0.4.0",
     "dustjs-linkedin": ">= 1.0.0",
     "grunt-contrib-lib": "*"
 

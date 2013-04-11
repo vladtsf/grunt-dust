@@ -1,4 +1,3 @@
-
 /*
 # grunt-dust
 # https://github.com/vtsvang/grunt-dust
@@ -13,6 +12,7 @@
 
   module.exports = function(grunt) {
     var amdHelper, contrib, dust, optionsHelper, path, relativePathHelper, runtime, _;
+
     _ = grunt.util._;
     dust = require('dustjs-linkedin');
     path = require('path');
@@ -21,12 +21,13 @@
     optionsHelper = require('../helpers/options').init(grunt);
     contrib = require('grunt-contrib-lib').init(grunt);
     runtime = {
-      path: grunt.file.expandFiles(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0],
+      path: grunt.file.expand(path.join(__dirname, '..', 'node_modules', 'dustjs-linkedin', 'dist', 'dust-core-*.js'))[0],
       file: 'dust-runtime.js',
       amdName: 'dust-runtime'
     };
     return grunt.registerMultiTask('dust', 'Task to compile dustjs templates.', function() {
-      var basePath, compiled, dest, fileRelativeSrc, newFileDest, options, output, runtimePath, section, source, src, tplName, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var basePath, compiled, dest, e, fileRelativeSrc, newFileDest, options, output, runtimePath, section, source, src, tplName, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+
       options = optionsHelper(this, {
         runtime: true,
         basePath: '',
@@ -43,7 +44,7 @@
       _ref4 = this.files;
       for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
         section = _ref4[_i];
-        src = grunt.file.expandFiles(section.src);
+        src = grunt.file.expand(section.src);
         dest = section.dest = path.normalize(section.dest);
         if (!src.length) {
           grunt.log.writeln('Unable to compile; no valid source files were found.');
@@ -57,7 +58,8 @@
           tplName = fileRelativeSrc.replace(new RegExp("" + (path.extname(fileRelativeSrc)) + "$"), '');
           try {
             compiled = dust.compile(grunt.file.read(source), tplName);
-          } catch (e) {
+          } catch (_error) {
+            e = _error;
             grunt.log.error().writeln(e.toString());
             grunt.warn("DustJS found errors.", 10);
           }

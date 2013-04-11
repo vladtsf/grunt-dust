@@ -5,9 +5,11 @@
 
   module.exports.init = function(grunt) {
     var _;
+
     _ = grunt.util._;
     return function(fPath, base) {
       var baseParts, filtered, pathParts;
+
       if (base == null) {
         base = '';
       }
