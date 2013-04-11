@@ -44,14 +44,17 @@
   exports['grunt-dust'] = {
     setUp: function(done) {
       var _this = this;
+
       grunt.file.mkdir(tmp);
       grunt.file.copy(path.join(__dirname, '..', '..', 'examples', 'Gruntfile.js'), path.join(tmp, 'Gruntfile.js'));
       wrench.copyDirSyncRecursive(path.join(__dirname, '..', '..', 'examples', 'src'), path.join(tmp, 'src'));
       return exec("cd " + tmp + " && TEST=1 grunt", function(error, stdout, stderr) {
         var req, structure;
+
         _this.structure = structure = {};
         req = function(content) {
-          var define, dust, raw, result;
+          var define, dust, e, raw, result;
+
           result = {
             name: null,
             deps: [],
@@ -59,7 +62,6 @@
             raw: ''
           };
           dust = (function() {
-
             function dust() {}
 
             dust.register = function(name) {
@@ -88,7 +90,8 @@
           };
           try {
             eval(content);
-          } catch (e) {
+          } catch (_error) {
+            e = _error;
             null;
           }
           raw = content;
@@ -109,18 +112,19 @@
     },
     'by default': function(test) {
       var _ref;
+
       test.ok(this.structure[path.join('default', 'dust-runtime.js')] != null, "should create runtime file");
       test.ok((_ref = this.structure[path.join('default', 'views.js')].deps) != null ? _ref.length : void 0, "should define runtime dependency");
       return test.done();
     },
     'no amd': function(test) {
-      test.ok(!(this.structure[path.join('views_no_amd', 'views.js')].name != null), "shouldn't define name");
+      test.ok(this.structure[path.join('views_no_amd', 'views.js')].name == null, "shouldn't define name");
       test.ok(this.structure[path.join('views_no_amd', 'views.js')].deps.length === 0, "shouldn't define deps");
       test.ok(this.structure[path.join('views_no_amd', 'views.js')].templates.length > 0, "should register several templates");
       return test.done();
     },
     'no runtime': function(test) {
-      test.ok(!(this.structure[path.join('views_no_runtime', 'dust-runtime.js')] != null), "shouldn't create runtime file");
+      test.ok(this.structure[path.join('views_no_runtime', 'dust-runtime.js')] == null, "shouldn't create runtime file");
       test.ok(__indexOf.call(this.structure[path.join('views_no_runtime', 'views.js')].deps, 'dust-runtime') < 0, "shouldn't define runtime dependency");
       return test.done();
     },
