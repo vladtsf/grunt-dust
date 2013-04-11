@@ -11,11 +11,27 @@ module.exports = function(grunt) {
 
     coffee: {
       compile: {
-        files: {
-          'tasks/*.js': ['src/tasks/*.coffee'],
-          'helpers/*.js': ['src/helpers/*.coffee'],
-          'test/specs/*.js': ['src/test/specs/*_spec.coffee']
-        }
+        files: [
+          {
+            expand: true,
+            cwd: 'src/tasks',
+            src: ['*.coffee'],
+            dest: 'tasks',
+            ext: '.js'
+          }, {
+            expand: true,
+            cwd: 'src/helpers',
+            src: ['*.coffee'],
+            dest: 'helpers',
+            ext: '.js'
+          }, {
+            expand: true,
+            cwd: 'src/test/specs',
+            src: ['*_spec.coffee'],
+            dest: 'test/specs',
+            ext: '.js'
+          }
+        ]
       }
     },
 
