@@ -129,6 +129,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.3.2
+  - Bump grunt dependency version
 * v0.3.1
   - Added usage examples
   - Added ooptions documentation
@@ -137,12 +139,12 @@ For more examples on how to use the `expand` API to manipulate the default dynam
   - Tests on Mocha
   - Tasks written on coffee compiles in runtime
 * v0.2.0
-	- Support of new Grunt.js API.
-	- Refactored API according to Grunt.js updates.
+	- Support of new Grunt.js API
+	- Refactored API according to Grunt.js updates
 * v0.1.1
-	- Fixed issue with empty array of dependencies and added ability to set package name for AMD.
+	- Fixed issue with empty array of dependencies and added ability to set package name for AMD
 * v0.1.0
-	- First release.
+	- First release
 
 ## License
 Copyright (c) 2013 Vladimir Tsvang
