@@ -6,9 +6,20 @@ module.exports = function(grunt) {
 
       defaults: {
         files: {
-          'dst/default/views.js': 'src/**/*.dust',
-          'dst/many-targets/*.js': 'src/**/*.dust'
+          'dst/default/views.js': 'src/**/*.dust'
         },
+      },
+
+      many_targets: {
+        files: [
+          {
+            expand: true,
+            cwd: 'src/',
+            src: ['**/*.dust'],
+            dest: 'dst/many-targets/',
+            ext: '.js'
+          }
+        ]
       },
 
       no_amd: {

@@ -1,49 +1,21 @@
-grunt = require 'grunt'
-sinon = require 'sinon'
-fs = require 'fs'
-wrench = require 'wrench'
-path = require 'path'
-exec = require('child_process').exec
-string = require 'string'
+describe "grunt-dust", ->
 
-tmp = path.join(__dirname, '..', 'tmp')
-dst = path.join(tmp, 'dst')
-
-###
-======== A Handy Little Nodeunit Reference ========
-https://github.com/caolan/nodeunit
-
-Test methods:
-test.expect(numAssertions)
-	test.done()
-Test assertions:
-test.ok(value, [message])
-	test.equal(actual, expected, [message])
-	test.notEqual(actual, expected, [message])
-	test.deepEqual(actual, expected, [message])
-	test.notDeepEqual(actual, expected, [message])
-	test.strictEqual(actual, expected, [message])
-	test.notStrictEqual(actual, expected, [message])
-	test.throws(block, [error], [message])
-	test.doesNotThrow(block, [error], [message])
-	test.ifError(value)
-###
-
-exports['grunt-dust'] =
-	setUp: (done) ->
+	before ( done ) ->
 		grunt.file.mkdir tmp
-		grunt.file.copy path.join(__dirname, '..', '..', 'examples', 'Gruntfile.js'), path.join(tmp, 'Gruntfile.js')
-		wrench.copyDirSyncRecursive path.join(__dirname, '..', '..', 'examples', 'src'), path.join(tmp, 'src')
+		grunt.file.copy path.join(__dirname, "..", "..", "..", "examples", "Gruntfile.js"), path.join(tmp, "Gruntfile.js")
+		wrench.copyDirSyncRecursive path.join(__dirname, "..", "..", "..", "examples", "src"), path.join(tmp, "src")
 
-		exec "cd #{tmp} && TEST=1 grunt", (error, stdout, stderr) =>
+		exec "cd #{tmp} && TEST=1 #{ path.join pkgRoot, "node_modules", "grunt-cli", "bin", "grunt" }", (error, stdout, stderr) =>
+			done stderr if error
+
 			@structure = structure = {}
 
 			req = (content) ->
-				result = 
+				result =
 					name: null
 					deps: []
 					templates: []
-					raw: ''
+					raw: ""
 
 				class dust
 					@register: (name) ->
@@ -56,7 +28,7 @@ exports['grunt-dust'] =
 						if name.constructor is Array
 							result.deps = name
 							deps()
-						else if typeof name is 'string' and typeof deps is 'function'
+						else if typeof name is "string" and typeof deps is "function"
 							result.name = name
 							deps()
 						else
@@ -74,36 +46,42 @@ exports['grunt-dust'] =
 				result
 
 			grunt.file.recurse dst, (abspath, rootdir, subdir, filename) =>
-				structure["#{subdir}#{path.sep}#{filename}"] = if filename is 'views.js' then req(grunt.file.read(abspath)) else {raw:grunt.file.read(abspath)}
+				structure["#{subdir}#{path.sep}#{filename}"] = if filename is "views.js" then req(grunt.file.read(abspath)) else {raw:grunt.file.read(abspath)}
 
 			done()
 
-	tearDown: (done) ->
+	after ->
 		wrench.rmdirSyncRecursive tmp
 		delete @structure
 
-		done()
+	describe "by default", ->
+		it "should create runtime file", ->
+			( @structure[ path.join "default", "dust-runtime.js" ]? ).should.be.true
 
-	'by default': (test) ->
-		test.ok @structure[path.join( 'default', 'dust-runtime.js' )]?, "should create runtime file"
-		test.ok @structure[path.join( 'default', 'views.js' )].deps?.length, "should define runtime dependency"
+		it "should define runtime dependency", ->
+			@structure[ path.join "default", "views.js" ].deps.should.include "dust-runtime"
 
-		test.done()
+	describe "cwd syntax", ->
+		it "shouldn't create runtimes in subdirectories", ->
+			( @structure[ path.join "many-targets", "nested", "dust-runtime.js" ]? ).should.be.false
 
-	'no amd': (test) ->
-		test.ok not @structure[path.join( 'views_no_amd', 'views.js' )].name?, "shouldn't define name"
-		test.ok @structure[path.join( 'views_no_amd', 'views.js' )].deps.length is 0, "shouldn't define deps"
-		test.ok @structure[path.join( 'views_no_amd', 'views.js' )].templates.length > 0, "should register several templates"
+	describe "no amd", ->
+		it "shouldn't define name", ->
+			shld.not.exist @structure[ path.join "views_no_amd", "views.js" ].name
 
-		test.done()
+		it "shouldn't define deps", ->
+			@structure[ path.join "views_no_amd", "views.js" ].deps.length.should.eql 0
 
-	'no runtime': (test) ->
-		test.ok not @structure[path.join( 'views_no_runtime', 'dust-runtime.js' )]?, "shouldn't create runtime file"
-		test.ok 'dust-runtime' not in @structure[path.join( 'views_no_runtime', 'views.js' )].deps, "shouldn't define runtime dependency"
+		it "should register several templates", ->
+			@structure[ path.join "views_no_amd", "views.js" ].templates.length.should.be.above 0
 
-		test.done()
+	describe "no runtime", ->
+		it "shouldn't create runtime file", ->
+			@structure[ path.join "views_no_runtime", "dust-runtime.js" ]?.should.be.false
 
-	'with package name': (test) ->
-		test.ok @structure[path.join( 'views_amd_with_package_name', 'views.js' )].name is 'views', "should define package name"
+		it "shouldn't define runtime dependency", ->
+			@structure[ path.join "views_no_runtime", "views.js" ].deps.should.not.include "dust-runtime"
 
-		test.done()
+	describe "with package name", ->
+		it "should define package name", ->
+			@structure[ path.join "views_amd_with_package_name", "views.js" ].name.should.equal "views"

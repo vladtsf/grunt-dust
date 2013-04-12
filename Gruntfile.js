@@ -1,51 +1,24 @@
 module.exports = function(grunt) {
-  // CoffeeScript plugin
-  grunt.loadNpmTasks('grunt-contrib-coffee');
-
-  // Nodeunit plugin
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  // Mocha tests plugin
+  grunt.loadNpmTasks('grunt-mocha-test');
 
 
   // Project configuration.
   grunt.initConfig({
 
-    coffee: {
-      compile: {
-        files: [
-          {
-            expand: true,
-            cwd: 'src/tasks',
-            src: ['*.coffee'],
-            dest: 'tasks',
-            ext: '.js'
-          }, {
-            expand: true,
-            cwd: 'src/helpers',
-            src: ['*.coffee'],
-            dest: 'helpers',
-            ext: '.js'
-          }, {
-            expand: true,
-            cwd: 'src/test/specs',
-            src: ['*_spec.coffee'],
-            dest: 'test/specs',
-            ext: '.js'
-          }
-        ]
+    mochaTest: {
+      files: ['src/test/specs/*.coffee']
+    },
+
+    mochaTestConfig: {
+      options: {
+        reporter: "spec",
+        ui: "bdd",
+        timeout: "3000",
+        slow: "75",
+        compilers: "coffee:coffee-script",
+        require: "./src/test/helpers.coffee"
       }
-    },
-
-    nodeunit: {
-      tasks: ['test/specs/*_spec.js']
-    },
-
-    lint: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
-    },
-
-    watch: {
-      files: ['./**/*.coffee'],
-      tasks: 'default'
     },
 
   });
@@ -54,7 +27,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // Default task.
-  grunt.registerTask('test', 'nodeunit');
-  grunt.registerTask('default', 'coffee');
+  grunt.registerTask('test', 'mochaTest');
+  grunt.registerTask('default', 'test');
 
 };
