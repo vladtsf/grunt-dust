@@ -34,7 +34,6 @@ module.exports = ( grunt ) ->
 	grunt.registerMultiTask "dust", "Task to compile dustjs templates.", ->
 		options = @options
 			runtime: on
-			basePath: ""
 			amd:
 				packageName: null
 				deps: [ runtime.amdName ]

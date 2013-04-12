@@ -3,24 +3,135 @@
 Grunt.js plugin to compile dustjs templates.
 
 ## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-dust`
+This plugin requires Grunt `~0.4.0`
 
-Then add this line to your project's `grunt.js` gruntfile:
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
-```javascript
+```shell
+npm install grunt-dust --save-dev
+```
+
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+
+```js
 grunt.loadNpmTasks('grunt-dust');
 ```
 
-[grunt]: https://github.com/cowboy/grunt
-[getting_started]: https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
+*This plugin was designed to work with Grunt 0.4.x. If you're still using grunt v0.3.x it's strongly recommended that [you upgrade](http://gruntjs.com/upgrading-from-0.3-to-0.4), but in case you can't please use [v0.3.2](https://github.com/gruntjs/grunt-contrib-coffee/tree/grunt-0.3-stable).*
 
-## Documentation
-_(Coming soon)_
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
+
+## Coffee task
+_Run this task with the `grunt grunt-dust` command._
+
+Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
+### Options
+
+#### amd
+Type: `Object/Boolean`
+Default: true
+
+Use Asynchronous Module Definition wrapper.
+Set false to disable.
+
+#### amd.packageName
+Type: `String`
+Default: null
+
+Package name used in define() invocation.
+
+#### amd.deps
+Type: `Array`
+Default: []
+
+Amd package dependencies.
+
+#### runtime
+Type: `boolean`
+
+Include dust runtime file.
+
+### Usage Examples
+
+```js
+dust: {
+  defaults: {
+    files: {
+      'dst/default/views.js': 'src/**/*.dust'
+    },
+  },
+
+  many_targets: {
+    files: [
+      {
+        expand: true,
+        cwd: 'src/',
+        src: ['**/*.dust'],
+        dest: 'dst/many-targets/',
+        ext: '.js'
+      }
+    ]
+  },
+
+  no_amd: {
+    files: {
+      'dst/views_no_amd/views.js': 'src/**/*.dust'
+    },
+    options: {
+      amd: false
+    }
+  },
+
+  amd_custom_deps: {
+    files: {
+      'dst/views_amd_custom_deps/views.js': 'src/**/*.dust'
+    },
+    options: {
+      amd: {
+        deps: ['dust-core-1.0.0.min.js']
+      }
+    }
+  },
+
+  amd_without_deps: {
+    files: {
+      'dst/views_amd_without_deps/views.js': 'src/**/*.dust'
+    },
+    options: {
+      amd: {
+        deps: false
+      }
+    }
+  },
+
+  amd_with_package_name: {
+    files: {
+      'dst/views_amd_with_package_name/views.js': 'src/**/*.dust'
+    },
+    options: {
+      amd: {
+        packageName: 'views'
+      }
+    }
+  },
+
+  no_runtime: {
+    files: {
+      'dst/views_no_runtime/views.js': 'src/**/*.dust'
+    },
+    options: {
+      runtime: false
+    }
+  }
+}
+```
+
+For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.3.1
+  - Added usage examples
+  - Added ooptions documentation
 * v0.3.0
   - Support of final version of Grunt.js API (Thanks to Ian Parkins aka [@parkotron](https://github.com/parkotron))
   - Tests on Mocha
