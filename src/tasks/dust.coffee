@@ -21,7 +21,8 @@ module.exports = ( grunt ) ->
 
 	# Runtime options
 	runtime =
-		path: grunt.file.expand( path.join( __dirname, "..", "..", "node_modules", "dustjs-linkedin", "dist", "dust-core-*.js" ) )[ 0 ]
+		version: ( dustjsVersion = require( "dustjs-linkedin/package.json" ).version )
+		path: require.resolve "dustjs-linkedin/dist/dust-core-#{ dustjsVersion }.js"
 		file: "dust-runtime.js"
 		amdName: "dust-runtime"
 
