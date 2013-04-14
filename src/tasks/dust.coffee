@@ -62,8 +62,7 @@ module.exports = ( grunt ) ->
 			# Add runtime
 			if options.runtime
 				# Where to store runtime
-				runtimePath = path.join ( if fs.statSync( fs.realpathSync file.orig.dest ).isDirectory() then  file.orig.dest else path.dirname( file.orig.dest ) ), runtime.file
+				runtimeDestDir = if file.orig.dest[ file.orig.dest.length ] is path.sep then file.orig.dest else path.dirname file.orig.dest
 
 				# Save runtime to file
-				grunt.file.write runtimePath, grunt.file.read( runtime.path )
-
+				grunt.file.write path.join( runtimeDestDir, runtime.file ), grunt.file.read( runtime.path )
