@@ -139,6 +139,9 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.4.0
+  - Added option "relative". [Thanks to [Andy Engle](https://github.com/andyengle)]
+  - Remove extension from templates names. [Thanks to [Andy Engle](https://github.com/andyengle)]
 * v0.3.5
   - Fixed issue with dustjs runtime path obtainment on Windows. [Thanks to Daniel Suchy]
 * v0.3.4
@@ -149,7 +152,7 @@ For more examples on how to use the `expand` API to manipulate the default dynam
   - Bump grunt dependency version
 * v0.3.1
   - Added usage examples
-  - Added ooptions documentation
+  - Added options documentation
 * v0.3.0
   - Support of final version of Grunt.js API (Thanks to Ian Parkins aka [@parkotron](https://github.com/parkotron))
   - Tests on Mocha
