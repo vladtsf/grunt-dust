@@ -48,8 +48,15 @@ Amd package dependencies.
 
 #### runtime
 Type: `boolean`
+Default: true
 
 Include dust runtime file.
+
+#### relative
+Type: `boolean`
+Default: false
+
+Make templates names relative from cwd (working only if used [Grunt Dynamic Mappings](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically)).
 
 ### Usage Examples
 
@@ -70,7 +77,10 @@ dust: {
         dest: 'dst/many-targets/',
         ext: '.js'
       }
-    ]
+    ],
+    options: {
+      relative: true
+    }
   },
 
   no_amd: {
