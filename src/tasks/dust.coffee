@@ -34,7 +34,8 @@ module.exports = ( grunt ) ->
 	# ---
 	grunt.registerMultiTask "dust", "Task to compile dustjs templates.", ->
 		options = @options
-			runtime: on
+			runtime: yes
+			relative: no
 			amd:
 				packageName: null
 				deps: [ runtime.amdName ]
@@ -50,8 +51,14 @@ module.exports = ( grunt ) ->
 			output = []
 
 			for own source in file.src
+				# relative path to
+				tplRelativePath = if file.orig.cwd? and options.relative then path.relative file.orig.cwd, source else source
+
+				# remove extension from template name
+				tplName = tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""
+
 				try
-					output.push "// #{ source }\n" + dust.compile grunt.file.read( source ), source
+					output.push "// #{ tplRelativePath }\n" + dust.compile grunt.file.read( source ), tplName
 				catch e
 					# Handle error and log it with Grunt.js API
 					grunt.log.error().writeln e.toString()

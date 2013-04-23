@@ -19,7 +19,10 @@ module.exports = function(grunt) {
             dest: 'dst/many-targets/',
             ext: '.js'
           }
-        ]
+        ],
+        options: {
+          relative: true
+        }
       },
 
       no_amd: {
