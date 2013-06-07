@@ -140,7 +140,7 @@ For more examples on how to use the `expand` API to manipulate the default dynam
 
 ## Release History
 * v0.4.1
-  - Fixed compatibility with "for" syntax in new coffee-script version. [Thanks to [Alastair Coote](https://github.com/alastaircoote)]
+  - Fixed compatibility with new coffee-script version. [Thanks to [Alastair Coote](https://github.com/alastaircoote)]
 * v0.4.0
   - Added option "relative". [Thanks to [Andy Engle](https://github.com/andyengle)]
   - Remove extension from templates names. [Thanks to [Andy Engle](https://github.com/andyengle)]
