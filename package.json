@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "grunt": "~0.4.1",
-    "dustjs-linkedin": "~1.2.3",
-    "coffee-script": "~1.6.2"
+    "dustjs-linkedin": "1.2.4",
+    "coffee-script": "~1.6.3"
   },
   "devDependencies": {
     "wrench": "~1.4.4",

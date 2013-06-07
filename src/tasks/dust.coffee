@@ -46,11 +46,11 @@ module.exports = ( grunt ) ->
 		unless options.runtime or @data.options?.amd?.deps? and runtime.amdName in @data.options.amd.deps
 			options.amd.deps = _.without( options.amd.deps, runtime.amdName )
 
-		for own file in @files
+		for file in @files
 
 			output = []
 
-			for own source in file.src
+			for source in file.src
 				# relative path to
 				tplRelativePath = if file.orig.cwd? and options.relative then path.relative file.orig.cwd, source else source
 
