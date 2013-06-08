@@ -27,12 +27,17 @@ _Run this task with the `grunt grunt-dust` command._
 Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
 ### Options
 
-#### amd
-Type: `Object/Boolean`
-Default: true
+#### wrapper
+Type: `String/boolean`
+Default: "amd"
 
-Use Asynchronous Module Definition wrapper.
-Set false to disable.
+Wrapper style to use - "amd" or "commonjs" are the only accepted values.
+
+#### amd
+Type: `Object`
+Default: null
+
+Options for the Asynchronous Module Definition wrapper.
 
 #### amd.packageName
 Type: `String`
