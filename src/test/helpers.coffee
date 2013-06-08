@@ -1,3 +1,4 @@
+global.util = require "util"
 global.shld = require "should"
 global.grunt = require "grunt"
 global.fs = require "fs"

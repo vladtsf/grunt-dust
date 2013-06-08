@@ -38,15 +38,21 @@ module.exports = ( grunt ) ->
 			runtime: yes
 			relative: no
 			wrapper: "amd"
-			amd:
+			wrapperOptions:
 				packageName: null
 				deps: [ runtime.amdName ]
 
 		grunt.verbose.writeflags options, "Options"
 
+		if options.amd
+			grunt.log.error """Notice: option "amd" is deprecated and will be removed in next version.""".yellow
+			if typeof options.amd is "object"
+				options.wrapper = "amd"
+				options.wrapperOptions = options.amd
+
 		# exclude deps if runtime is false
-		unless options.runtime or @data.options?.amd?.deps? and runtime.amdName in @data.options.amd.deps
-			options.amd.deps = _.without( options.amd.deps, runtime.amdName )
+		if not options.runtime and runtime.amdName in ( options.wrapperOptions?.deps ? [] )
+			options.wrapperOptions.deps = _.without( options.wrapperOptions?.deps ? [], runtime.amdName )
 
 		for file in @files
 
@@ -69,10 +75,10 @@ module.exports = ( grunt ) ->
 			if output.length > 0
 				joined = output.join( "\n ")
 
-				if options.wrapper == "amd"
-					joined = amdHelper(joined, options.amd.deps ? [], options.amd.packageName ? "" )
-				else if options.wrapper == "commonjs"
-					joined = commonjsHelper(joined)
+				if options.wrapper is "amd"
+					joined = amdHelper joined, options.wrapperOptions?.deps ? [], options.wrapperOptions?.packageName ? ""
+				else if options.wrapper is "commonjs"
+					joined = commonjsHelper joined
 
 				grunt.file.write file.dest, joined
 

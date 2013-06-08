@@ -15,7 +15,6 @@ describe "grunt-dust", ->
 					name: null
 					deps: []
 					templates: []
-					raw: ""
 
 				class dust
 					@register: (name) ->
@@ -46,7 +45,11 @@ describe "grunt-dust", ->
 				result
 
 			grunt.file.recurse dst, (abspath, rootdir, subdir, filename) =>
-				structure["#{subdir}#{path.sep}#{filename}"] = if filename is "views.js" then req(grunt.file.read(abspath)) else {raw:grunt.file.read(abspath)}
+				defs =
+					raw: grunt.file.read abspath
+					path: abspath
+
+				structure["#{subdir}#{path.sep}#{filename}"] = if filename is "views.js" then util._extend defs, req defs.raw else defs
 
 			done()
 
@@ -64,6 +67,10 @@ describe "grunt-dust", ->
 	describe "cwd syntax", ->
 		it "shouldn't create runtimes in subdirectories", ->
 			( @structure[ path.join "many-targets", "nested", "dust-runtime.js" ]? ).should.be.false
+
+	describe "commonjs", ->
+		it "should write module.exports", ->
+			console.log require @structure[ path.join "views_commonjs", "views.js" ].path
 
 	describe "no amd", ->
 		it "shouldn't define name", ->

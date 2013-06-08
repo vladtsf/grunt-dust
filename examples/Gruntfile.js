@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
       defaults: {
         files: {
-          'dst/default/views.js': 'src/**/*.dust'
+          "dst/default/views.js": "src/**/*.dust"
         },
       },
 
@@ -14,10 +14,10 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: 'src/',
-            src: ['**/*.dust'],
-            dest: 'dst/many-targets/',
-            ext: '.js'
+            cwd: "src/",
+            src: ["**/*.dust"],
+            dest: "dst/many-targets/",
+            ext: ".js"
           }
         ],
         options: {
@@ -25,32 +25,34 @@ module.exports = function(grunt) {
         }
       },
 
-      no_amd: {
+      no_wrapper: {
         files: {
-          'dst/views_no_amd/views.js': 'src/**/*.dust'
+          "dst/views_no_amd/views.js": "src/**/*.dust"
         },
         options: {
-          amd: false
+          wrapper: false
         }
       },
 
       amd_custom_deps: {
         files: {
-          'dst/views_amd_custom_deps/views.js': 'src/**/*.dust'
+          "dst/views_amd_custom_deps/views.js": "src/**/*.dust"
         },
         options: {
-          amd: {
-            deps: ['dust-core-1.0.0.min.js']
+          wrapper: "amd",
+          wrapperOptions: {
+            deps: ["dust-core-1.0.0.min.js"]
           }
         }
       },
 
       amd_without_deps: {
         files: {
-          'dst/views_amd_without_deps/views.js': 'src/**/*.dust'
+          "dst/views_amd_without_deps/views.js": "src/**/*.dust"
         },
         options: {
-          amd: {
+          wrapper: "amd",
+          wrapperOptions: {
             deps: false
           }
         }
@@ -58,27 +60,37 @@ module.exports = function(grunt) {
 
       amd_with_package_name: {
         files: {
-          'dst/views_amd_with_package_name/views.js': 'src/**/*.dust'
+          "dst/views_amd_with_package_name/views.js": "src/**/*.dust"
         },
         options: {
-          amd: {
-            packageName: 'views'
+          wrapper: "amd",
+          wrapperOptions: {
+            packageName: "views"
           }
+        }
+      },
+
+      commonjs: {
+        files: {
+          "dst/views_commonjs/views.js": "src/**/*.dust"
+        },
+        options: {
+          wrapper: "commonjs"
         }
       },
 
       nested_relative: {
         files: {
-          'dst/views_nested_relative/views.js': 'src/**/*.dust'
+          "dst/views_nested_relative/views.js": "src/**/*.dust"
         },
         options: {
-          basePath: 'src/'
+          basePath: "src/"
         }
       },
 
       no_runtime: {
         files: {
-          'dst/views_no_runtime/views.js': 'src/**/*.dust'
+          "dst/views_no_runtime/views.js": "src/**/*.dust"
         },
         options: {
           runtime: false
@@ -91,12 +103,12 @@ module.exports = function(grunt) {
 
   // Load local tasks.
   if(process.env.TEST) {
-    grunt.loadTasks('../../tasks');
+    grunt.loadTasks("../../tasks");
   } else {
-    grunt.loadTasks('../tasks');
+    grunt.loadTasks("../tasks");
   }
 
   // Default task.
-  grunt.registerTask('default', 'dust');
+  grunt.registerTask("default", "dust");
 
 };
