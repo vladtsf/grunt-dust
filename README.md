@@ -33,21 +33,21 @@ Default: "amd"
 
 Wrapper style to use - "amd" or "commonjs" are the only accepted values.
 
-#### amd
+#### wrapperOptions
 Type: `Object`
 Default: null
 
-Options for the Asynchronous Module Definition wrapper.
+Options for the package wrapper.
 
-#### amd.packageName
+#### wrapperOptions.packageName
 Type: `String`
 Default: null
 
 Package name used in define() invocation.
 
-#### amd.deps
-Type: `Array`
-Default: []
+#### wrapperOptions.deps
+Type: `Object`
+Default: { dust: "dust-runtime" }
 
 Amd package dependencies.
 
@@ -67,9 +67,10 @@ Make templates names relative from cwd (working only if used [Grunt Dynamic Mapp
 
 ```js
 dust: {
+
   defaults: {
     files: {
-      'dst/default/views.js': 'src/**/*.dust'
+      "dst/default/views.js": "src/**/*.dust"
     },
   },
 
@@ -77,10 +78,10 @@ dust: {
     files: [
       {
         expand: true,
-        cwd: 'src/',
-        src: ['**/*.dust'],
-        dest: 'dst/many-targets/',
-        ext: '.js'
+        cwd: "src/",
+        src: ["**/*.dust"],
+        dest: "dst/many-targets/",
+        ext: ".js"
       }
     ],
     options: {
@@ -88,32 +89,36 @@ dust: {
     }
   },
 
-  no_amd: {
+  no_wrapper: {
     files: {
-      'dst/views_no_amd/views.js': 'src/**/*.dust'
+      "dst/views_no_amd/views.js": "src/**/*.dust"
     },
     options: {
-      amd: false
+      wrapper: false
     }
   },
 
   amd_custom_deps: {
     files: {
-      'dst/views_amd_custom_deps/views.js': 'src/**/*.dust'
+      "dst/views_amd_custom_deps/views.js": "src/**/*.dust"
     },
     options: {
-      amd: {
-        deps: ['dust-core-1.0.0.min.js']
+      wrapper: "amd",
+      wrapperOptions: {
+        deps: {
+          dust: "dust-core-1.0.0.min.js"
+        }
       }
     }
   },
 
   amd_without_deps: {
     files: {
-      'dst/views_amd_without_deps/views.js': 'src/**/*.dust'
+      "dst/views_amd_without_deps/views.js": "src/**/*.dust"
     },
     options: {
-      amd: {
+      wrapper: "amd",
+      wrapperOptions: {
         deps: false
       }
     }
@@ -121,23 +126,49 @@ dust: {
 
   amd_with_package_name: {
     files: {
-      'dst/views_amd_with_package_name/views.js': 'src/**/*.dust'
+      "dst/views_amd_with_package_name/views.js": "src/**/*.dust"
     },
     options: {
-      amd: {
-        packageName: 'views'
+      wrapper: "amd",
+      wrapperOptions: {
+        packageName: "views"
       }
+    }
+  },
+
+  commonjs: {
+    files: {
+      "dst/views_commonjs/views.js": "src/**/*.dust"
+    },
+    options: {
+      wrapper: "commonjs",
+      wrapperOptions: {
+        deps: {
+          foo: "foo.js",
+          dust: "dust.js"
+        }
+      }
+    }
+  },
+
+  nested_relative: {
+    files: {
+      "dst/views_nested_relative/views.js": "src/**/*.dust"
+    },
+    options: {
+      basePath: "src/"
     }
   },
 
   no_runtime: {
     files: {
-      'dst/views_no_runtime/views.js': 'src/**/*.dust'
+      "dst/views_no_runtime/views.js": "src/**/*.dust"
     },
     options: {
       runtime: false
     }
   }
+
 }
 ```
 
