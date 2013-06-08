@@ -41,7 +41,9 @@ module.exports = function(grunt) {
         options: {
           wrapper: "amd",
           wrapperOptions: {
-            deps: ["dust-core-1.0.0.min.js"]
+            deps: {
+              dust: "dust-core-1.0.0.min.js"
+            }
           }
         }
       },
@@ -75,7 +77,13 @@ module.exports = function(grunt) {
           "dst/views_commonjs/views.js": "src/**/*.dust"
         },
         options: {
-          wrapper: "commonjs"
+          wrapper: "commonjs",
+          wrapperOptions: {
+            deps: {
+              foo: "foo.js",
+              dust: "dust.js"
+            }
+          }
         }
       },
 

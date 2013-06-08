@@ -40,7 +40,7 @@ module.exports = ( grunt ) ->
 			wrapper: "amd"
 			wrapperOptions:
 				packageName: null
-				deps: [ runtime.amdName ]
+				deps: {}
 
 		grunt.verbose.writeflags options, "Options"
 
@@ -49,10 +49,15 @@ module.exports = ( grunt ) ->
 			if typeof options.amd is "object"
 				options.wrapper = "amd"
 				options.wrapperOptions = options.amd
+				for key in options.amd.deps ? []
+					options.wrapperOptions.deps[ key ] = key
 
-		# exclude deps if runtime is false
-		if not options.runtime and runtime.amdName in ( options.wrapperOptions?.deps ? [] )
-			options.wrapperOptions.deps = _.without( options.wrapperOptions?.deps ? [], runtime.amdName )
+		( options.wrapperOptions ?= {} ).deps ?= {}
+
+		# add runtime if its specified
+		if options.runtime and not options.wrapperOptions.deps is no
+			if ( key for own key, dep of options.wrapperOptions.deps when key is "dust" ).length is 0
+				options.wrapperOptions.deps.dust = runtime.amdName
 
 		for file in @files
 
@@ -76,9 +81,9 @@ module.exports = ( grunt ) ->
 				joined = output.join( "\n ")
 
 				if options.wrapper is "amd"
-					joined = amdHelper joined, options.wrapperOptions?.deps ? [], options.wrapperOptions?.packageName ? ""
+					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName
 				else if options.wrapper is "commonjs"
-					joined = commonjsHelper joined
+					joined = commonjsHelper joined, options.wrapperOptions.deps
 
 				grunt.file.write file.dest, joined
 

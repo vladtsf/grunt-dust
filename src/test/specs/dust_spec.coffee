@@ -15,10 +15,14 @@ describe "grunt-dust", ->
 					name: null
 					deps: []
 					templates: []
+					exports: null
 
 				class dust
 					@register: (name) ->
 						result.templates.push name
+
+				_origExports = module.exports
+				_origRequire = require
 
 				define = (name, deps, callback) ->
 					if arguments.length is 1
@@ -35,10 +39,21 @@ describe "grunt-dust", ->
 							result.deps = deps
 							callback()
 
+				require = ( name ) ->
+					result.deps.push name
+
 				try
 					eval content
+
+					if typeof module.exports is "function"
+						result.exports = module.exports
+						module.exports()
+
 				catch e
 					null
+
+				module.exports = _origExports
+				require = _origRequire
 
 				raw = content
 
@@ -69,8 +84,14 @@ describe "grunt-dust", ->
 			( @structure[ path.join "many-targets", "nested", "dust-runtime.js" ]? ).should.be.false
 
 	describe "commonjs", ->
-		it "should write module.exports", ->
-			console.log require @structure[ path.join "views_commonjs", "views.js" ].path
+		it "should define commonjs module", ->
+			@structure[ path.join "views_commonjs", "views.js" ].exports.should.be.a.function
+
+		it "should define dependencies", ->
+			@structure[ path.join "views_commonjs", "views.js" ].deps.should.include "foo.js"
+
+		it "shouldn't override dust dependency", ->
+			@structure[ path.join "views_commonjs", "views.js" ].deps.should.include "dust.js"
 
 	describe "no amd", ->
 		it "shouldn't define name", ->

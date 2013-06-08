@@ -1,15 +1,17 @@
 module.exports.init = (grunt) ->
 	# Wraps some content into AMD
 	# ---
-	(content, deps = [], name = null) ->
-		if deps.constructor is Array and deps.length
-			depsString = "['#{deps.join '\', \''}'], "
+	(content, deps, name) ->
+		args = []
+		paths = []
+		parts = []
 
-		if typeof deps is 'string' and name is null
-			packageString = "'#{deps}', "
+		for own key, dep of deps
+			args.push key.replace /^\d+|[^\w]+/g, "_"
+			paths.push JSON.stringify dep
 
-		else if typeof name is 'string' and name.length
-			packageString = "'#{name}', "
+		parts.push JSON.stringify( name ) if name?.length ? 0 > 0
+		parts.push "[#{ paths.join "," }]" if paths.length
+		parts.push """function (#{ args.join "," }) {\n\t#{ content.split( "\n" ).join "\n\t" }\n}"""
 
-		"define(#{packageString ? ''}#{depsString ? ''}function () {\n\t#{content.split('\n').join('\n\t')}\n});"
-	
+		"define(#{ parts.join( "," ) });"
