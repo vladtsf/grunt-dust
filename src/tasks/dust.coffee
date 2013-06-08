@@ -18,6 +18,7 @@ module.exports = ( grunt ) ->
 	# HELPERS
 	# ==========================================================================
 	amdHelper = require( "../helpers/amd" ).init( grunt )
+	commonjsHelper = require( "../helpers/commonjs" ).init( grunt )
 
 	# Runtime options
 	runtime =
@@ -36,6 +37,7 @@ module.exports = ( grunt ) ->
 		options = @options
 			runtime: yes
 			relative: no
+			wrapper: "amd"
 			amd:
 				packageName: null
 				deps: [ runtime.amdName ]
@@ -65,7 +67,14 @@ module.exports = ( grunt ) ->
 					grunt.warn "DustJS found errors.", 10
 
 			if output.length > 0
-				grunt.file.write file.dest, if options.amd then amdHelper( output.join( "\n" ), options.amd.deps ? [], options.amd.packageName ? "" ) else output.join( "\n" ) ? ""
+				joined = output.join( "\n ")
+
+				if options.wrapper == "amd"
+					joined = amdHelper(joined, options.amd.deps ? [], options.amd.packageName ? "" )
+				else if options.wrapper == "commonjs"
+					joined = commonjsHelper(joined)
+
+				grunt.file.write file.dest, joined
 
 			# Add runtime
 			if options.runtime
