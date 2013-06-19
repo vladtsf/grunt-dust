@@ -34,6 +34,7 @@ module.exports = ( grunt ) ->
 			wrapper: "amd"
 			wrapperOptions:
 				packageName: null
+				returning: "dust"
 				deps: {}
 
 		grunt.verbose.writeflags options, "Options"
@@ -77,7 +78,7 @@ module.exports = ( grunt ) ->
 				if options.wrapper is "amd"
 					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName
 				else if options.wrapper is "commonjs"
-					joined = commonjsHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName
+					joined = commonjsHelper joined, options.wrapperOptions.deps, options.wrapperOptions.returning
 
 				grunt.file.write file.dest, joined
 

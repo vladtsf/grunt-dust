@@ -79,6 +79,7 @@ module.exports = function(grunt) {
         options: {
           wrapper: "commonjs",
           wrapperOptions: {
+            returning: "dust",
             deps: {
               foo: "foo.js",
               dust: "dust.js"

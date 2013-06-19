@@ -6,71 +6,81 @@ describe "grunt-dust", ->
 		wrench.copyDirSyncRecursive path.join(__dirname, "..", "..", "..", "examples", "src"), path.join(tmp, "src")
 
 		exec "cd #{tmp} && TEST=1 #{ path.join pkgRoot, "node_modules", "grunt-cli", "bin", "grunt" }", (error, stdout, stderr) =>
-			done stderr if error
+			if error
+				done stderr
+			else
+				done()
 
-			@structure = structure = {}
+	beforeEach ( done ) ->
+		@structure = structure = {}
+		@fakeRequireModules = fakeRequireModules = require "../fixtures/fake_require_modules"
 
-			req = (content) ->
-				result =
-					name: null
-					deps: []
-					templates: []
-					exports: null
+		req = (content) ->
+			result =
+				name: null
+				deps: []
+				templates: []
+				exports: null
+				returning: null
 
-				class dust
-					@register: (name) ->
-						result.templates.push name
+			class dust
+				@register: (name) ->
+					result.templates.push name
 
-				_origExports = module.exports
-				_origRequire = require
+			_origExports = module.exports
+			_origRequire = require
 
-				define = (name, deps, callback) ->
-					if arguments.length is 1
-						name()
+			define = (name, deps, callback) ->
+				if arguments.length is 1
+					name()
+				else
+					if name.constructor is Array
+						result.deps = name
+						deps()
+					else if typeof name is "string" and typeof deps is "function"
+						result.name = name
+						deps()
 					else
-						if name.constructor is Array
-							result.deps = name
-							deps()
-						else if typeof name is "string" and typeof deps is "function"
-							result.name = name
-							deps()
-						else
-							result.name = name
-							result.deps = deps
-							callback()
+						result.name = name
+						result.deps = deps
+						callback()
 
-				require = ( name ) ->
-					result.deps.push name
+			require = ( name ) ->
+				result.deps.push name
 
-				try
-					eval content
+				for own module, returning of fakeRequireModules when module is name
+					return returning
 
-					if typeof module.exports is "function"
-						result.exports = module.exports
-						module.exports()
+			try
+				eval content
 
-				catch e
-					null
+				if typeof module.exports is "function"
+					result.exports = module.exports
+					result.returning = module.exports()
+			catch e
+				null
 
-				module.exports = _origExports
-				require = _origRequire
+			module.exports = _origExports
+			require = _origRequire
 
-				raw = content
+			raw = content
 
-				result
+			result
 
-			grunt.file.recurse dst, (abspath, rootdir, subdir, filename) =>
-				defs =
-					raw: grunt.file.read abspath
-					path: abspath
+		grunt.file.recurse dst, (abspath, rootdir, subdir, filename) =>
+			defs =
+				raw: grunt.file.read abspath
+				path: abspath
 
-				structure["#{subdir}#{path.sep}#{filename}"] = if filename is "views.js" then util._extend defs, req defs.raw else defs
+			structure["#{subdir}#{path.sep}#{filename}"] = if filename is "views.js" then util._extend defs, req defs.raw else defs
 
-			done()
+		done()
+
+	afterEach ->
+		delete @structure
 
 	after ->
 		wrench.rmdirSyncRecursive tmp
-		delete @structure
 
 	describe "by default", ->
 		it "should create runtime file", ->
@@ -92,6 +102,9 @@ describe "grunt-dust", ->
 
 		it "shouldn't override dust dependency", ->
 			@structure[ path.join "views_commonjs", "views.js" ].deps.should.include "dust.js"
+
+		it "should return specified variable", ->
+			@structure[ path.join "views_commonjs", "views.js" ].returning.should.equal @fakeRequireModules[ "dust.js" ]
 
 	describe "no amd", ->
 		it "shouldn't define name", ->
