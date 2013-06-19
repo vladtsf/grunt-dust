@@ -17,15 +17,9 @@ module.exports = ( grunt ) ->
 	# ==========================================================================
 	# HELPERS
 	# ==========================================================================
-	amdHelper = require( "../helpers/amd" ).init( grunt )
-	commonjsHelper = require( "../helpers/commonjs" ).init( grunt )
-
-	# Runtime options
-	runtime =
-		version: ( dustjsVersion = require( "dustjs-linkedin/package.json" ).version )
-		path: require.resolve "dustjs-linkedin/dist/dust-core-#{ dustjsVersion }.js"
-		file: "dust-runtime.js"
-		amdName: "dust-runtime"
+	amdHelper = require( "../helpers/amd" ).init grunt
+	commonjsHelper = require( "../helpers/commonjs" ).init grunt
+	runtime = require( "../helpers/dustjs-runtime" ).init grunt
 
 	# ==========================================================================
 	# TASKS
