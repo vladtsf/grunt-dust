@@ -77,7 +77,7 @@ module.exports = ( grunt ) ->
 				if options.wrapper is "amd"
 					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName
 				else if options.wrapper is "commonjs"
-					joined = commonjsHelper joined, options.wrapperOptions.deps
+					joined = commonjsHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName
 
 				grunt.file.write file.dest, joined
 
