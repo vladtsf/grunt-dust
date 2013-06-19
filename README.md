@@ -45,6 +45,12 @@ Default: null
 
 Package name used in define() invocation.
 
+#### wrapperOptions.returning
+Type: `String`
+Default: "dust"
+
+Name of variable which will be returned in CommonJS wrapper.
+
 #### wrapperOptions.deps
 Type: `Object`
 Default: { dust: "dust-runtime" }
@@ -143,6 +149,7 @@ dust: {
     options: {
       wrapper: "commonjs",
       wrapperOptions: {
+        returning: "dust",
         deps: {
           foo: "foo.js",
           dust: "dust.js"
@@ -175,6 +182,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.5.2
+  - Added "returning" option, which specifies the name of returning variable in CommonJS mode. [Thanks to [Wilson Wise](https://github.com/wilsonodk)]
 * v0.5.1
   - Resolve runtime path with semver
   - Update dustjs-linkedin version to 1.2.5
