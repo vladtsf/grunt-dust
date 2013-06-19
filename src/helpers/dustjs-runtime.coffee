@@ -1,4 +1,6 @@
 module.exports.init = ( grunt ) ->
+  # Resolves dustjs runtime path and version
+  # ---
   fs = require "fs"
   semver = require "semver"
 
