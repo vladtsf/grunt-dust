@@ -21,7 +21,7 @@ grunt.loadNpmTasks('grunt-dust');
 
 
 
-## Coffee task
+## Dust task
 _Run this task with the `grunt grunt-dust` command._
 
 Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
@@ -182,6 +182,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.5.3
+  - Update dustjs-linkedin version to v2.0.0
 * v0.5.2
   - Added "returning" option, which specifies the name of returning variable in CommonJS mode. [Thanks to [Wilson Wise](https://github.com/wilsonodk)]
 * v0.5.1
