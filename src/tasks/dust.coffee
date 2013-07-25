@@ -76,7 +76,7 @@ module.exports = ( grunt ) ->
 				joined = output.join( "\n ")
 
 				if options.wrapper is "amd"
-					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName
+          joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName, tplName
 				else if options.wrapper is "commonjs"
 					joined = commonjsHelper joined, options.wrapperOptions.deps, options.wrapperOptions.returning
 
