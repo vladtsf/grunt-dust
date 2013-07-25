@@ -1,7 +1,7 @@
 module.exports.init = (grunt) ->
 	# Wraps some content into AMD
 	# ---
-	(content, deps, name, tplName) ->
+	(content, deps, name, returning) ->
 		args = []
 		paths = []
 		parts = []
@@ -12,6 +12,6 @@ module.exports.init = (grunt) ->
 
 		parts.push JSON.stringify( name ) if name?.length ? 0 > 0
 		parts.push "[#{ paths.join "," }]" if paths.length
-		parts.push """function (#{ args.join "," }) {\n\t#{ content.split( "\n" ).join "\n\t" }\n\treturn "#{ tplName }";\n}"""
+		parts.push """function (#{ args.join "," }) {\n\t#{ content.split( "\n" ).join "\n\t" }\n\treturn #{ JSON.stringify returning };\n}"""
 
 		"define(#{ parts.join( "," ) });"

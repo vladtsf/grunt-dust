@@ -58,6 +58,9 @@ module.exports = ( grunt ) ->
 
 			output = []
 
+			# array of compiled templates names
+			tplNames = []
+
 			for source in file.src
 				# relative path to
 				tplRelativePath = if file.orig.cwd? and options.relative then path.relative file.orig.cwd, source else source
@@ -67,6 +70,7 @@ module.exports = ( grunt ) ->
 
 				try
 					output.push "// #{ tplRelativePath }\n" + dust.compile grunt.file.read( source ), tplName
+					tplNames.push tplName
 				catch e
 					# Handle error and log it with Grunt.js API
 					grunt.log.error().writeln e.toString()
@@ -76,7 +80,16 @@ module.exports = ( grunt ) ->
 				joined = output.join( "\n ")
 
 				if options.wrapper is "amd"
-					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName, tplName
+					# what should return AMD wrapper
+					switch tplNames.length
+						when 0
+							returning = undefined
+						when 1
+							returning = _.last tplNames
+						else
+							returning = tplNames						
+
+					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName, returning
 				else if options.wrapper is "commonjs"
 					joined = commonjsHelper joined, options.wrapperOptions.deps, options.wrapperOptions.returning
 

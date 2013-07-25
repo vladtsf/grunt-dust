@@ -89,6 +89,13 @@ describe "grunt-dust", ->
 		it "should define runtime dependency", ->
 			@structure[ path.join "default", "views.js" ].deps.should.include "dust-runtime"
 
+	describe "amd returning", ->
+		it "should return template name for single template file", ->
+			@structure[ path.join "many-targets", "tags.js" ].raw.indexOf( 'return "tags";' ).should.not.equal -1
+
+		it "should return templates names for templates bundle", ->
+			@structure[ path.join "default", "views.js" ].raw.indexOf( '["src/friends","src/nested/inline-params","src/tags"];' ).should.not.equal -1
+
 	describe "cwd syntax", ->
 		it "shouldn't create runtimes in subdirectories", ->
 			( @structure[ path.join "many-targets", "nested", "dust-runtime.js" ]? ).should.be.false
