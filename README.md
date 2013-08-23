@@ -67,11 +67,12 @@ Include dust runtime file.
 Type: `boolean`
 Default: false
 
-Exclude this path from templates names.
 
 #### basePath
 Type: `string`
 Default: false
+
+Exclude this path from templates names.
 
 Make templates names relative from cwd (working only if used [Grunt Dynamic Mappings](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically)).
 
