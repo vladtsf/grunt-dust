@@ -63,7 +63,8 @@ module.exports = ( grunt ) ->
 
 			for source in file.src
 				# relative path to
-				tplRelativePath = if file.orig.cwd? and options.relative then path.relative file.orig.cwd, source else source
+				tplRelativePath = if file.orig.cwd? and options.relative then path.relative file.orig.cwd, source else
+													if options.basePath? then path.relative options.basePath, source else source
 
 				# remove extension from template name
 				tplName = tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""
@@ -87,7 +88,7 @@ module.exports = ( grunt ) ->
 						when 1
 							returning = _.last tplNames
 						else
-							returning = tplNames						
+							returning = tplNames
 
 					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName, returning
 				else if options.wrapper is "commonjs"
