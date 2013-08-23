@@ -93,6 +93,9 @@ module.exports = function(grunt) {
           "dst/views_nested_relative/views.js": "src/**/*.dust"
         },
         options: {
+          wrapperOptions: {
+            deps: false
+          },
           basePath: "src/"
         }
       },

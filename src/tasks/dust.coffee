@@ -63,8 +63,15 @@ module.exports = ( grunt ) ->
 
 			for source in file.src
 				# relative path to
-				tplRelativePath = if file.orig.cwd? and options.relative then path.relative file.orig.cwd, source else
-													if options.basePath? then path.relative options.basePath, source else source
+				tplRelativePath =
+					if file.orig.cwd? and options.relative
+						# for dynamic_mappings task
+						path.relative file.orig.cwd, source
+					else if options.basePath?
+						# for basePath option
+						path.relative options.basePath, source
+					else
+						source
 
 				# remove extension from template name
 				tplName = tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""

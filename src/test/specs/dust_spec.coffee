@@ -123,6 +123,10 @@ describe "grunt-dust", ->
 		it "should register several templates", ->
 			@structure[ path.join "views_no_amd", "views.js" ].templates.length.should.be.above 0
 
+	describe "nested relative", ->
+		it "should cut basePath token from template name", ->
+			@structure[ path.join "views_nested_relative", "views.js" ].templates.should.include "friends", "nested/inline-params", "tags"
+
 	describe "no runtime", ->
 		it "shouldn't create runtime file", ->
 			@structure[ path.join "views_no_runtime", "dust-runtime.js" ]?.should.be.false
