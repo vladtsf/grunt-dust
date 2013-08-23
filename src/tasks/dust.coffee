@@ -30,6 +30,7 @@ module.exports = ( grunt ) ->
 	grunt.registerMultiTask "dust", "Task to compile dustjs templates.", ->
 		options = @options
 			runtime: yes
+			basePath: no
 			relative: no
 			wrapper: "amd"
 			wrapperOptions:
@@ -67,7 +68,7 @@ module.exports = ( grunt ) ->
 					if file.orig.cwd? and options.relative
 						# for dynamic_mappings task
 						path.relative file.orig.cwd, source
-					else if options.basePath?
+					else if options.basePath
 						# for basePath option
 						path.relative options.basePath, source
 					else
