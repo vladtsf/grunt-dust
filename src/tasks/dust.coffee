@@ -31,6 +31,7 @@ module.exports = ( grunt ) ->
 		options = @options
 			runtime: yes
 			basePath: no
+			useBaseName: no
 			relative: no
 			wrapper: "amd"
 			wrapperOptions:
@@ -74,8 +75,13 @@ module.exports = ( grunt ) ->
 					else
 						source
 
-				# remove extension from template name
-				tplName = tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""
+				tplName =
+          if options.useBaseName
+            # use basename as template name
+            path.basename tplRelativePath, path.extname tplRelativePath
+          else
+            # remove extension from template name
+            tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""
 
 				try
 					output.push "// #{ tplRelativePath }\n" + dust.compile grunt.file.read( source ), tplName
