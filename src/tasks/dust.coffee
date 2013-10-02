@@ -31,6 +31,7 @@ module.exports = ( grunt ) ->
 		options = @options
 			runtime: yes
 			basePath: no
+			useBaseName: no
 			relative: no
 			wrapper: "amd"
 			wrapperOptions:
