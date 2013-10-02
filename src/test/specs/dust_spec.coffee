@@ -127,6 +127,10 @@ describe "grunt-dust", ->
 		it "should cut basePath token from template name", ->
 			@structure[ path.join "views_nested_relative", "views.js" ].templates.should.include "friends", "nested/inline-params", "tags"
 
+	describe "use basename", ->
+		it "should use basename as template name", ->
+			@structure[ path.join "views_use_base_name", "views.js" ].templates.should.include "friends", "inline-params", "tags"
+
 	describe "no runtime", ->
 		it "shouldn't create runtime file", ->
 			@structure[ path.join "views_no_runtime", "dust-runtime.js" ]?.should.be.false

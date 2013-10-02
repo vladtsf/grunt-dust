@@ -100,6 +100,18 @@ module.exports = function(grunt) {
         }
       },
 
+      use_base_name: {
+        files: {
+          "dst/views_use_base_name/views.js": "src/**/*.dust"
+        },
+        options: {
+          wrapperOptions: {
+            deps: false
+          },
+          useBaseName: true
+        }
+      },
+
       no_runtime: {
         files: {
           "dst/views_no_runtime/views.js": "src/**/*.dust"

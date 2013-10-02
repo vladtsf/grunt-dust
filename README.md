@@ -75,6 +75,12 @@ Default: false
 
 Exclude this path from templates names.
 
+#### useBaseName
+Type: `boolean`
+Default: false
+
+If 'true' template names will be the same as the basename of the file, sans prepended paths and file extensions. When coupled with globbing pattern '[root_folder]/**/*' all files matched will use their base names regardless of where the file is located in the directory tree rooted at root_folder. Note: One caveat - filenames must be unique! Otherwise name collisions will occur.
+
 
 ### Usage Examples
 
@@ -174,6 +180,18 @@ dust: {
         deps: false
       },
       basePath: "src/"
+    }
+  },
+
+  use_base_name: {
+    files: {
+      "dst/views_use_base_name/views.js": "src/**/*.dust"
+    },
+    options: {
+      wrapperOptions: {
+        deps: false
+      },
+      useBaseName: true
     }
   },
 
