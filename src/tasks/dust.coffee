@@ -68,10 +68,10 @@ module.exports = ( grunt ) ->
 				tplRelativePath =
 					if file.orig.cwd? and options.relative
 						# for dynamic_mappings task
-						path.relative file.orig.cwd, source
+						path.relative(file.orig.cwd, source).split(path.sep).join('/')
 					else if options.basePath
 						# for basePath option
-						path.relative options.basePath, source
+						path.relative(options.basePath, source).split(path.sep).join('/')
 					else
 						source
 
@@ -95,15 +95,7 @@ module.exports = ( grunt ) ->
 				joined = output.join( "\n ")
 
 				if options.wrapper is "amd"
-					# what should return AMD wrapper
-					switch tplNames.length
-						when 0
-							returning = undefined
-						when 1
-							returning = _.last tplNames
-						else
-							returning = tplNames
-
+					returning = null
 					joined = amdHelper joined, options.wrapperOptions.deps, options.wrapperOptions.packageName, returning
 				else if options.wrapper is "commonjs"
 					joined = commonjsHelper joined, options.wrapperOptions.deps, options.wrapperOptions.returning
