@@ -1,7 +1,7 @@
 {
   "name": "grunt-dust",
   "description": "Grunt.js plugin to compile dustjs templates.",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "homepage": "https://github.com/vtsvang/grunt-dust",
   "author": {
     "name": "Vladimir Tsvang",
