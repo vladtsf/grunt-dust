@@ -12,5 +12,6 @@ module.exports.init = (grunt) ->
 
 		parts.push JSON.stringify( name ) if name?.length ? 0 > 0
 		parts.push "[#{ paths.join "," }]" if paths.length
-		parts.push """function (#{ args.join "," }) {\n\t#{ content.split( "\n" ).join "\n\t" } #{ "\n\treturn " + JSON.stringify returning if !!returning };\n}"""
+		parts.push """function (#{ args.join "," }) {\n\t#{ content.split( "\n" ).join "\n\t" }\n\treturn #{ JSON.stringify returning };\n}"""
+
 		"define(#{ parts.join( "," ) });"
