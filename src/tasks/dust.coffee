@@ -68,10 +68,10 @@ module.exports = ( grunt ) ->
 				tplRelativePath =
 					if file.orig.cwd? and options.relative
 						# for dynamic_mappings task
-						path.relative file.orig.cwd, source
+						path.relative(file.orig.cwd, source).split(path.sep).join('/')
 					else if options.basePath
 						# for basePath option
-						path.relative options.basePath, source
+						path.relative(options.basePath, source).split(path.sep).join('/')
 					else
 						source
 
