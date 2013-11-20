@@ -1,3 +1,5 @@
+beautify = require( "js-beautify" ).js_beautify
+
 module.exports.init = (grunt) ->
 	# Wraps some content into AMD
 	# ---
@@ -19,24 +21,48 @@ module.exports.init = (grunt) ->
 		# package deps
 		parts.push "[#{ paths.join "," }]" if paths.length
 
+		renderFunction = """
+			function (locals) {
+				var rendered;
+
+				dust.render(<%= template_name %>, locals, function(err, result) {
+					if (err) {
+						throw err
+					} else {
+						rendered = result;
+					}
+				});
+
+				return rendered;
+			}
+		"""
+
 		# package callback
 		if typeof returning is "string"
 			# single template
-			amdCallback = """function (#{ args.join "," }) {\n\t#{ content.split( "\n" ).join "\n\t" }\n\n\treturn function (locals, callback) { return dust.render(#{ JSON.stringify returning }, locals, callback) };\n}"""
+			amdCallback = """
+				function (#{ args.join "," }) {
+					#{ content }
+					return #{ renderFunction.replace "<%= template_name %>", JSON.stringify returning }
+				}
+			"""
 		else
 			# bunch of templates
 			defines = for item in returning
-				"""define(#{ JSON.stringify item }, function() {\n\t\treturn function(locals, callback) { return dust.render(#{ JSON.stringify item }, locals, callback) };\n\t});"""
+				"""
+					define(#{ JSON.stringify item }, function() {
+						return #{ renderFunction.replace "<%= template_name %>", JSON.stringify item }
+					});
+				"""
 
-			functionBody = [
-				content.split( "\n" ).join "\n\t"
-				defines.join "\n\n\t"
-				"return #{ JSON.stringify returning };"
-			].join "\n\n\t"
-
-			amdCallback = """function (#{ args.join "," }) {\n\t#{functionBody}\n}"""
-
+			amdCallback = """
+				function (#{ args.join "," }) {
+					#{ content }
+					#{ defines.join "" }
+					return #{ JSON.stringify returning };
+				}
+			"""
 
 		parts.push amdCallback
 
-		"define(#{ parts.join( "," ) });"
+		beautify "define(#{ parts.join( "," ) });", indent_size: 2

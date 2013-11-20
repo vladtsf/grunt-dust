@@ -53,7 +53,7 @@ describe "grunt-dust", ->
 				@views.wrappers.should.include @views.templates...
 
 			it "should return templates names array", ->
-				@views.raw.indexOf( '["src/friends","src/nested/inline-params","src/tags"];' ).should.not.equal -1
+				@views.returning.should.include "src/friends", "src/nested/inline-params", "src/tags"
 
 	describe "cwd syntax", ->
 		it "shouldn't create runtimes in subdirectories", ->

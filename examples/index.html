@@ -4,7 +4,8 @@
     <title>Dust.js Usage Example</title>
     <script src="require.js"></script>
     <script>
-      // just run `grunt` on examples folder
+      // just run `grunt` in `examples` folder
+      // and open this file in your favorite browser
 
       requirejs.config({
         paths: {
@@ -28,9 +29,7 @@
             ]
           };
 
-          friends(locals, function(err, result) {
-            document.body.innerHTML = result;
-          });
+          document.body.innerHTML = friends(locals);
 
         });
       });

@@ -32,7 +32,8 @@
     "grunt": "~0.4.1",
     "dustjs-linkedin": "2.0.2",
     "coffee-script": "~1.6.3",
-    "semver": "1.1.4"
+    "semver": "1.1.4",
+    "js-beautify": "~1.4.2"
   },
   "devDependencies": {
     "wrench": "~1.5.4",
