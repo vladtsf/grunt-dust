@@ -215,7 +215,7 @@ For more examples on how to use the `expand` API to manipulate the default dynam
   - Removed callback argument from template rendering function (no more compatible with previous version)
   - Updated AMD integration example
 * v0.7.0
-  * WARNING: some of features no more compatible with previous versions *
+  - **WARNING: some of features no more compatible with previous versions**
   - Brand new AMD wrapper [Idea by [tfga](https://github.com/tfga)]
   - Tests refactoring
   - Added AMD integration examples
@@ -266,12 +266,12 @@ For more examples on how to use the `expand` API to manipulate the default dynam
   - Tests on Mocha
   - Tasks written on coffee compiles in runtime
 * v0.2.0
-	- Support of new Grunt.js API
-	- Refactored API according to Grunt.js updates
+  - Support of new Grunt.js API
+  - Refactored API according to Grunt.js updates
 * v0.1.1
-	- Fixed issue with empty array of dependencies and added ability to set package name for AMD
+  - Fixed issue with empty array of dependencies and added ability to set package name for AMD
 * v0.1.0
-	- First release
+  - First release
 
 ## License
 Copyright (c) 2013 Vladimir Tsvang
