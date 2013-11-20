@@ -11,16 +11,11 @@ describe "grunt-dust", ->
 			else
 				done()
 
-	before ( done ) ->
+	before ->
 		@structure = structure = {}
 
 		grunt.file.recurse dst, (abspath, rootdir, subdir, filename) =>
 			structure["#{subdir}#{path.sep}#{filename}"] = parseBundle abspath
-
-		done()
-
-	# afterEach ->
-	# 	delete @structure
 
 	after ->
 		wrench.rmdirSyncRecursive tmp
