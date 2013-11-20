@@ -7,6 +7,7 @@ class Parser
       path: @path
       wrapperType: null
       returning: null
+      exports: null
       templates: null
       wrappers: null
       raw: null
@@ -25,9 +26,12 @@ class Parser
       @definitions body
     else if @attributes.wrapperType is "commonjs"
       body = @ast.body[0]?.expression?.right?.body?.body
+      @attributes.exports = @ast.body[0]?.expression?.right
+
       @returning body
       @definitions body
       @attributes.wrappers = null
+
     else if @attributes.wrapperType is "raw"
       @definitions @ast.body
       @attributes.wrappers = null
@@ -82,11 +86,16 @@ class Parser
   definitions: ( body ) ->
     @attributes.templates = []
     @attributes.wrappers = []
+    @attributes.deps ?= []
 
-    for expression in body when expression.type is "ExpressionStatement"
+    for expression in body when expression.type in [ "ExpressionStatement", "VariableDeclaration" ]
       fn = expression.expression
 
-      if fn.callee.type is "Identifier" and fn.callee.name is "define"
+      if expression.type is "VariableDeclaration"
+        for declaration in expression.declarations
+          # declaration.id.name
+          @attributes.deps.push @_extractArray( declaration?.init?.arguments )[ 0 ]
+      else if fn.callee.type is "Identifier" and fn.callee.name is "define"
         # template amd wrapper
         @attributes.wrappers.push name if ( name = @_parseArgs( fn.arguments ).name )?
       else if fn.callee.type is "FunctionExpression"
