@@ -210,7 +210,12 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.7.5
+  - Refactored wrappers helpers
+  - Removed callback argument from template rendering function (no more compatible with previous version)
+  - Updated AMD integration example
 * v0.7.0
+  * WARNING: some of features no more compatible with previous versions *
   - Brand new AMD wrapper [Idea by [tfga](https://github.com/tfga)]
   - Tests refactoring
   - Added AMD integration examples
