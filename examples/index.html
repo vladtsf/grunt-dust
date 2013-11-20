@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dust.js Usage Example</title>
+    <script src="require.js"></script>
+    <script>
+      // just run `grunt` on examples folder
+
+      requirejs.config({
+        paths: {
+            "dust-runtime": "dst/default/dust-runtime"
+        },
+
+        shim: {
+            "dust-runtime": {
+                exports: "dust"
+            }
+        }
+      });
+
+      require(["dst/default/views"], function() {
+        require(["src/friends"], function(friends) {
+
+          var locals = {
+            friends: [
+              { name: "Barack Obama", age: 52 },
+              { name: "Joe Biden", age: 71 }
+            ]
+          };
+
+          friends(locals, function(err, result) {
+            document.body.innerHTML = result;
+          });
+
+        });
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
