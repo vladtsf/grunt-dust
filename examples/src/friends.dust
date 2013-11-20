@@ -1,3 +1,7 @@
+<ul>
 {#friends}
-  {name}, {age}{~n}
+  <li>
+    {name}, {age}{~n}
+  </li>
 {/friends}
+</ul>

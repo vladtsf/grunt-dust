@@ -26,14 +26,11 @@ module.exports.init = (grunt) ->
 		else
 			# bunch of templates
 			defines = for item in returning
-				"""define(#{ JSON.stringify item }, function() {\n\t\treturn function(locals, callback) { return dust.render("template_name", locals, callback) };\n\t});"""
-
-			definesInvocations = """define(#{ JSON.stringify returning }, function() {});"""
+				"""define(#{ JSON.stringify item }, function() {\n\t\treturn function(locals, callback) { return dust.render(#{ JSON.stringify item }, locals, callback) };\n\t});"""
 
 			functionBody = [
 				content.split( "\n" ).join "\n\t"
 				defines.join "\n\n\t"
-				definesInvocations
 				"return #{ JSON.stringify returning };"
 			].join "\n\n\t"
 
