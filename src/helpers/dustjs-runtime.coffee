@@ -7,9 +7,18 @@ module.exports.init = ( grunt ) ->
   distDir = require.resolve( "dustjs-linkedin/package" ).replace /package\.json$/, "dist"
   coreExp = /dust-core-([\d.]+)\.js$/
 
+  versions = ( ver[1] for dir in fs.readdirSync( distDir ) when ( ver = dir.match coreExp )?.length ).sort ( a, b ) ->
+    return 0 if a is b
+    return 1 if semver.lt a, b
+    -1
+
+  maxVersion = versions[0]
+
+
+
   {
-    version: version = semver.maxSatisfying ( ver[1] for dir in fs.readdirSync( distDir ) when ( ver = dir.match coreExp )?.length )
-    path: require.resolve "dustjs-linkedin/dist/dust-core-#{ version }.js"
+    version: maxVersion
+    path: require.resolve "dustjs-linkedin/dist/dust-core-#{ maxVersion }.js"
     file: "dust-runtime.js"
     amdName: "dust-runtime"
   }
