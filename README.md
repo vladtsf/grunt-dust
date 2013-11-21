@@ -210,6 +210,9 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.7.6
+  - Updated dustjs-linkedin dependency
+  - Updated semver dependency
 * v0.7.5
   - Refactored wrappers helpers
   - Removed callback argument from template rendering function (no more compatible with previous version)
