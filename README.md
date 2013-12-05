@@ -279,3 +279,7 @@ For more examples on how to use the `expand` API to manipulate the default dynam
 ## License
 Copyright (c) 2013 Vladimir Tsvang
 Licensed under the MIT license.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vtsvang/grunt-dust/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
