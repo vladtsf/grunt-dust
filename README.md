@@ -99,12 +99,46 @@ dust: {
         expand: true,
         cwd: "src/",
         src: ["**/*.dust"],
-        dest: "dst/many-targets/",
+        dest: "dst/many_targets/",
         ext: ".js"
       }
     ],
     options: {
       relative: true
+    }
+  },
+
+  many_targets_without_package_name: {
+    files: [
+      {
+        expand: true,
+        cwd: "src/",
+        src: ["**/*.dust"],
+        dest: "dst/many_targets_without_package_name/",
+        ext: ".js"
+      }
+    ],
+    options: {
+      wrapper: "amd",
+      wrapperOptions: {
+        packageName: null, // disable packageName
+        deps: {
+          dust: "v1/dust-helpers"
+        }
+      }
+    }
+  },
+
+  amd_without_package_name_and_deps: {
+    files: {
+      "dst/amd_without_package_name_and_deps/views.js": "src/**/*.dust"
+    },
+    options: {
+      wrapper: "amd",
+      wrapperOptions: {
+        packageName: null,
+        deps: false
+      }
     }
   },
 
@@ -210,6 +244,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.7.7
+  - Added ability to disable package name. [Idea by Maarten van Oudenniel]
 * v0.7.6
   - Updated dustjs-linkedin dependency
   - Updated semver dependency
