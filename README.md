@@ -41,7 +41,7 @@ Options for the package wrapper.
 
 #### wrapperOptions.packageName
 Type: `String`
-Default: null
+Default: ""
 
 Package name used in define() invocation.
 
