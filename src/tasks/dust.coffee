@@ -35,7 +35,7 @@ module.exports = ( grunt ) ->
 			relative: no
 			wrapper: "amd"
 			wrapperOptions:
-				packageName: null
+				packageName: ""
 				returning: "dust"
 				deps: {}
 

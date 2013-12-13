@@ -37,7 +37,7 @@ describe "grunt-dust", ->
 
 		context "single template bundle", ->
 			before ->
-				@returning = @structure[ path.join "many-targets", "tags.js" ].returning
+				@returning = @structure[ path.join "many_targets", "tags.js" ].returning
 				@cbArgs = ( element.name for element in @returning.params )
 
 			after ->
@@ -57,7 +57,7 @@ describe "grunt-dust", ->
 
 	describe "cwd syntax", ->
 		it "shouldn't create runtimes in subdirectories", ->
-			( @structure[ path.join "many-targets", "nested", "dust-runtime.js" ]? ).should.be.false
+			( @structure[ path.join "many_targets", "nested", "dust-runtime.js" ]? ).should.be.false
 
 	describe "commonjs", ->
 		before ->
@@ -110,6 +110,14 @@ describe "grunt-dust", ->
 		it "shouldn't define runtime dependency", ->
 			@structure[ path.join "views_no_runtime", "views.js" ].deps.should.not.include "dust-runtime"
 
-	describe "with package name", ->
-		it "should define package name", ->
+	describe "package name", ->
+		it "should define package name by default", ->
 			@structure[ path.join "views_amd_with_package_name", "views.js" ].name.should.equal "views"
+
+		context "single file template", ->
+			it "shouldn't define package name if packageName is null ()", ->
+				shld.not.exist @structure[ path.join "many_targets_without_package_name", "friends.js" ].name
+
+		context "templates bundle", ->
+			it "shouldn't define package name if packageName is null", ->
+				shld.not.exist @structure[ path.join "amd_without_package_name_and_deps", "views.js" ].name

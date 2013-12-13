@@ -12,11 +12,14 @@ module.exports.init = (grunt) ->
 			args.push key.replace /^\d+|[^\w]+/g, "_"
 			paths.push JSON.stringify dep
 
-		# package name
-		if name?.length ? 0 > 0
-			parts.push JSON.stringify( name )
-		else if typeof returning is "string"
-			parts.push JSON.stringify returning
+		# disable name part if packageName is null
+		unless name is null
+			# package name
+			if name?.length ? 0 > 0
+				parts.push JSON.stringify( name )
+			else if typeof returning is "string"
+				parts.push JSON.stringify returning
+
 
 		# package deps
 		parts.push "[#{ paths.join "," }]" if paths.length
