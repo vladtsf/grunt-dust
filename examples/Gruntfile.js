@@ -7,7 +7,19 @@ module.exports = function(grunt) {
       defaults: {
         files: {
           "dst/default/views.js": "src/**/*.dust"
+        }
+      },
+
+      preserve_whitespace: {
+        files: {
+          "dst/preserve_whitespace/views.js": "src/**/*.dust"
         },
+
+        options: {
+          optimizers: {
+            format: function(ctx, node) { return node; }
+          }
+        }
       },
 
       many_targets: {

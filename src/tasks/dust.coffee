@@ -20,6 +20,7 @@ module.exports = ( grunt ) ->
 	amdHelper = require( "../helpers/amd" ).init grunt
 	commonjsHelper = require( "../helpers/commonjs" ).init grunt
 	runtime = require( "../helpers/dustjs-runtime" ).init grunt
+	optimizers = require( "../helpers/optimizers" ).init grunt
 
 	# ==========================================================================
 	# TASKS
@@ -34,12 +35,16 @@ module.exports = ( grunt ) ->
 			useBaseName: no
 			relative: no
 			wrapper: "amd"
+			optimizers: {}
 			wrapperOptions:
 				packageName: ""
 				returning: "dust"
 				deps: {}
 
 		grunt.verbose.writeflags options, "Options"
+
+		# override optimizers
+		optimizers.replace options.optimizers if options.optimizers?
 
 		if options.amd
 			grunt.log.error """Notice: option "amd" is deprecated and will be removed in next version.""".yellow

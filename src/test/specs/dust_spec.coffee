@@ -121,3 +121,20 @@ describe "grunt-dust", ->
 		context "templates bundle", ->
 			it "shouldn't define package name if packageName is null", ->
 				shld.not.exist @structure[ path.join "amd_without_package_name_and_deps", "views.js" ].name
+
+	describe "optimizers helper", ->
+		before ->
+			@optimizers = require( "../../helpers/optimizers" ).init grunt
+			@originalFormat = require( "dustjs-linkedin" ).optimizers.format
+
+		after ->
+			delete @optimizers
+			delete @originalFormat
+
+		it "should replace dust.optimizers with specified in options.optimizers", ->
+			dustInstance = @optimizers.replace format: "format"
+			dustInstance.optimizers.format.should.equal "format"
+
+		it "shouldn't use past time affected overrides", ->
+			dustInstance = @optimizers.replace()
+			dustInstance.optimizers.format.should.equal @originalFormat

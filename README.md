@@ -81,6 +81,20 @@ Default: false
 
 If 'true' template names will be the same as the basename of the file, sans prepended paths and file extensions. When coupled with globbing pattern '[root_folder]/**/*' all files matched will use their base names regardless of where the file is located in the directory tree rooted at root_folder. Note: One caveat - filenames must be unique! Otherwise name collisions will occur.
 
+#### optimizers
+Type: `Object`
+Default: {}
+
+Replaces default optimizers.
+
+Example:
+```js
+options: {
+  optimizers: {
+    format: function(ctx, node) { return node; }
+  }
+}
+```
 
 ### Usage Examples
 
@@ -90,7 +104,19 @@ dust: {
   defaults: {
     files: {
       "dst/default/views.js": "src/**/*.dust"
+    }
+  },
+
+  preserve_whitespace: {
+    files: {
+      "dst/preserve_whitespace/views.js": "src/**/*.dust"
     },
+
+    options: {
+      optimizers: {
+        format: function(ctx, node) { return node; }
+      }
+    }
   },
 
   many_targets: {
