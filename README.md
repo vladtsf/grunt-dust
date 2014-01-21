@@ -270,6 +270,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.7.8
+  - Added ability to override dust.optimizers. [Thanks to [Johan Borestad](https://github.com/borestad)]
 * v0.7.7
   - Added ability to disable package name. [Idea by Maarten van Oudenniel]
 * v0.7.6
