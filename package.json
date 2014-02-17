@@ -30,9 +30,8 @@
   },
   "dependencies": {
     "grunt": "~0.4.1",
-    "dustjs-linkedin": "2.2.0",
-    "coffee-script": "~1.6.3",
-    "semver": "2.2.1",
+    "dustjs-linkedin": "2.3.3",
+    "coffee-script": "~1.7.1",
     "js-beautify": "~1.4.2"
   },
   "devDependencies": {
