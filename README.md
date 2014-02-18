@@ -31,7 +31,7 @@ Task targets, files and options may be specified according to the grunt [Configu
 Type: `String/boolean`
 Default: "amd"
 
-Wrapper style to use - "amd" or "commonjs" are the only accepted values.
+Wrapper style to use. Accepted values are `'amd'`, `'commonjs'`, and `false`.
 
 #### wrapperOptions
 Type: `Object`
