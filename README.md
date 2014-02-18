@@ -270,6 +270,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.7.10
+  - Update wrapper's README [Thanks to [Chris Ruppel](https://github.com/rupl)]
 * v0.7.9
   - New CoffeeScript and dustjs-linkedin versions.
 * v0.7.8
