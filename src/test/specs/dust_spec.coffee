@@ -95,6 +95,15 @@ describe "grunt-dust", ->
 		it "should register several templates", ->
 			@views.templates.should.include "src/friends", "src/nested/inline-params", "src/tags"
 
+	describe "naming convention customization", ->
+			context "replacement of templates naming function with explicitly defined one", ->
+				it "should replace returning", ->
+					@structure[ path.join "custom_templates_names", "views.js" ].returning.should.include "src/friends.dust.jst", "src/nested/inline-params.dust.jst", "src/tags.dust.jst", "src/whitespace.dust.jst"
+				it "should replace templates", ->
+					@structure[ path.join "custom_templates_names", "views.js" ].templates.should.include "src/friends.dust.jst", "src/nested/inline-params.dust.jst", "src/tags.dust.jst", "src/whitespace.dust.jst"
+				it "should replace wrappers", ->
+					@structure[ path.join "custom_templates_names", "views.js" ].wrappers.should.include "src/friends.dust.jst", "src/nested/inline-params.dust.jst", "src/tags.dust.jst", "src/whitespace.dust.jst"
+
 	describe "nested relative", ->
 		it "should cut basePath token from template name", ->
 			@structure[ path.join "views_nested_relative", "views.js" ].templates.should.include "friends", "nested/inline-params", "tags"

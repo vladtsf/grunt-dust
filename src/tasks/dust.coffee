@@ -81,12 +81,14 @@ module.exports = ( grunt ) ->
 						source
 
 				tplName =
-          if options.useBaseName
-            # use basename as template name
-            path.basename tplRelativePath, path.extname tplRelativePath
-          else
-            # remove extension from template name
-            tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""
+					if typeof ( generator = options.wrapperOptions?.templatesNamesGenerator ) is "function"
+						generator options, source
+					else if options.useBaseName
+						# use basename as template name
+						path.basename tplRelativePath, path.extname tplRelativePath
+					else
+						# remove extension from template name
+						tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""
 
 				try
 					output.push "// #{ tplRelativePath }\n" + dust.compile grunt.file.read( source ), tplName

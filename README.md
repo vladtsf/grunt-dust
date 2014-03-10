@@ -45,6 +45,13 @@ Default: ""
 
 Package name used in define() invocation.
 
+#### wrapperOptions.templatesNamesGenerator
+Type: `Function`
+Default: undefined
+
+Function that might be used to change the templates naming convention.
+Leave blank if you don't want to change it.
+
 #### wrapperOptions.returning
 Type: `String`
 Default: "dust"

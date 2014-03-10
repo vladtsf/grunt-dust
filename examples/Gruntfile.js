@@ -10,6 +10,23 @@ module.exports = function(grunt) {
         }
       },
 
+      custom_templates_names: {
+        files: {
+          "dst/custom_templates_names/views.js": "src/**/*.dust"
+        },
+        options: {
+          wrapper: "amd",
+          wrapperOptions: {
+            templatesNamesGenerator: function(options, file) {
+              return file + ".jst";
+            },
+            deps: {
+              dust: "v1/dust-helpers"
+            }
+          }
+        }
+      },
+
       preserve_whitespace: {
         files: {
           "dst/preserve_whitespace/views.js": "src/**/*.dust"
