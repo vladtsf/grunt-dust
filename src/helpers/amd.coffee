@@ -25,10 +25,16 @@ module.exports.init = (grunt) ->
 		parts.push "[#{ paths.join "," }]" if paths.length
 
 		renderFunction = """
-			function (locals) {
+			function (locals, callback) {
 				var rendered;
 
 				dust.render(<%= template_name %>, locals, function(err, result) {
+					if(typeof callback === "function") {
+						try {
+							callback(err, result);
+						} catch(e) {}
+					}
+
 					if (err) {
 						throw err
 					} else {
