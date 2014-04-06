@@ -25,7 +25,7 @@ class Parser
       @returning body
       @definitions body
     else if @attributes.wrapperType is "commonjs"
-      body = @ast.body[0]?.expression?.right?.body?.body
+      body = @ast.body[0]?.expression?.right?.callee?.body?.body
       @attributes.exports = @ast.body[0]?.expression?.right
 
       @returning body

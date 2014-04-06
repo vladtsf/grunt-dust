@@ -18,9 +18,9 @@ module.exports.init = (grunt) ->
       ""
 
     beautify """
-      module.exports = function () {
+      module.exports = (function () {
         #{ locals.join "\n" }
         #{ content }
         #{ result }
-      };
+      })();
     """, indent_size: 2

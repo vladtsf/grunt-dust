@@ -67,7 +67,7 @@ describe "grunt-dust", ->
 			delete @views
 
 		it "should define commonjs module", ->
-			@views.exports.type.should.equal "FunctionExpression"
+			@views.exports.type.should.equal "CallExpression"
 
 		it "should return reference to specified variable", ->
 			@views.returning.type.should.equal "Identifier"
