@@ -144,8 +144,7 @@ module.exports = function(grunt) {
           wrapperOptions: {
             returning: "dust",
             deps: {
-              foo: "foo.js",
-              dust: "dust.js"
+              foo: "foo.js"
             }
           }
         }

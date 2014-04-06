@@ -77,7 +77,7 @@ describe "grunt-dust", ->
 			@views.deps.should.include "foo.js"
 
 		it "shouldn't override dust dependency", ->
-			@views.deps.should.include "dust.js"
+			@views.deps.should.include "./dust-runtime"
 
 	describe "no amd", ->
 		before ->

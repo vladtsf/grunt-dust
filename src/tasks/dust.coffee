@@ -59,7 +59,7 @@ module.exports = ( grunt ) ->
 		# add runtime if its specified
 		if options.runtime and not options.wrapperOptions.deps is no
 			if ( key for own key, dep of options.wrapperOptions.deps when key is "dust" ).length is 0
-				options.wrapperOptions.deps.dust = runtime.amdName
+				options.wrapperOptions.deps.dust = "#{ if options.wrapper is "commonjs" then "./" else "" }#{ runtime.amdName }"
 
 		for file in @files
 
