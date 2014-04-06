@@ -277,6 +277,9 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.9.0
+  - CommonJS wrapper now returns dust object instead of function [Thanks to [Jannik Zschiesche](https://github.com/apfelbox)]
+  - CommonJS wrapper uses correct runtime file from now on [Thanks to [Jannik Zschiesche](https://github.com/apfelbox)]
 * v0.8.0
   - Added ability to customize templates naming convention for the specific tasks [Thanks to [Cory Roloff](https://github.com/coryroloff)]
   - From now on grunt-dust is utilizing the callback explicitly passed to renderFunction [Thanks to [Cory Roloff](https://github.com/coryroloff)]
