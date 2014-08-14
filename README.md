@@ -277,6 +277,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.9.2
+  - From now on, using "coffee-script/register" to get "require" to work with the .coffee extension. [Thanks to [Enzo Martin](https://github.com/EnzoMartin78)]
 * v0.9.0
   - CommonJS wrapper now returns dust object instead of function [Thanks to [Jannik Zschiesche](https://github.com/apfelbox)]
   - CommonJS wrapper uses correct runtime file from now on [Thanks to [Jannik Zschiesche](https://github.com/apfelbox)]
