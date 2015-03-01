@@ -36,6 +36,7 @@ module.exports = ( grunt ) ->
 			relative: no
 			wrapper: "amd"
 			optimizers: {}
+			whitespace: no
 			wrapperOptions:
 				packageName: ""
 				returning: "dust"
@@ -45,6 +46,9 @@ module.exports = ( grunt ) ->
 
 		# override optimizers
 		optimizers.replace options.optimizers if options.optimizers?
+
+		# add whitespace parameter
+		dust.config.whitespace = options.whitespace
 
 		if options.amd
 			grunt.log.error """Notice: option "amd" is deprecated and will be removed in next version.""".yellow
