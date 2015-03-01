@@ -88,6 +88,10 @@ Default: false
 
 If 'true' template names will be the same as the basename of the file, sans prepended paths and file extensions. When coupled with globbing pattern '[root_folder]/**/*' all files matched will use their base names regardless of where the file is located in the directory tree rooted at root_folder. Note: One caveat - filenames must be unique! Otherwise name collisions will occur.
 
+#### whitespace
+Type: `boolean`
+Default: false
+
 #### optimizers
 Type: `Object`
 Default: {}
@@ -277,6 +281,8 @@ dust: {
 For more examples on how to use the `expand` API to manipulate the default dynamic path construction in the `glob_to_multiple` examples, see "Building the files object dynamically" in the grunt wiki entry [Configuring Tasks](http://gruntjs.com/configuring-tasks).
 
 ## Release History
+* v0.9.4
+  - Added `whitespace` option. [Thanks to [lud2k](lud2k)]
 * v0.9.3
   - Bump the dependencies versions.
 * v0.9.2
