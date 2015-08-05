@@ -100,9 +100,10 @@ module.exports = ( grunt ) ->
 				try
 					sourceContent = grunt.file.read( source )
 
-					while((match = partialMatchRx.exec sourceContent) != null)
-						splitPartialDependencyName = match[1].split '/'
-						options.wrapperOptions.deps[splitPartialDependencyName.join '_'] =  match[1]
+					if options.wrapperOptions.addPartialDeps
+						while ((match = partialMatchRx.exec sourceContent) != null)
+							splitPartialDependencyName = match[1].split '/'
+							options.wrapperOptions.deps[splitPartialDependencyName.join '_'] =  match[1]
 
 					output.push "// #{ tplRelativePath }\n" + dust.compile sourceContent, tplName
 					tplNames.push tplName
