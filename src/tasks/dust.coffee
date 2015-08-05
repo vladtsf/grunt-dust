@@ -94,8 +94,17 @@ module.exports = ( grunt ) ->
 						# remove extension from template name
 						tplRelativePath.replace new RegExp( "\\#{ path.extname tplRelativePath }$" ), ""
 
+				match = null
+				partialMatchRx = /\{\s*>\s*"([^"]*)".*?\/\}/g;
+
 				try
-					output.push "// #{ tplRelativePath }\n" + dust.compile grunt.file.read( source ), tplName
+					sourceContent = grunt.file.read( source )
+
+					while((match = partialMatchRx.exec sourceContent) != null)
+						splitPartialDependencyName = match[1].split '/'
+						options.wrapperOptions.deps[splitPartialDependencyName.join '_'] =  match[1]
+
+					output.push "// #{ tplRelativePath }\n" + dust.compile sourceContent, tplName
 					tplNames.push tplName
 				catch e
 					# Handle error and log it with Grunt.js API
